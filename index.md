@@ -1,9 +1,17 @@
 ---
 layout: splash
-title: What is PHP Debugger? 
 ---
+<div align="center">
+# What is PHP Debugger?
+</div>
 
-A PHP debugger extension focused on step debugging with near-zero overhead. Forked from [Xdebug](https://xdebug.org/), with profiling, coverage, and tracing removed.
+A PHP debugging extension focused on step debugging with near-zero overhead.
+
+- Forked from [Xdebug](https://xdebug.org/), and fully compatible with it.
+- Just debugging, with profiling, coverage, and tracing removed.
+- Near-zero overhead when not connected, and much faster when active.
+- Always on, no need to enable and disable it.
+- Can be statically linked to your PHP binary, removing the need for a PHP extension.
 
 ### Main Repository
 
