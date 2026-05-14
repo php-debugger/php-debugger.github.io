@@ -1,5 +1,5 @@
 # Site Settings
-title: PHP Debugger
+logo: "https://raw.githubusercontent.com/php-debugger/art/main/php-debugger-lockup.png"
 email:
 description: >-
   A PHP debugger extension focused on step debugging with near-zero overhead.
