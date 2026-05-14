@@ -9,7 +9,7 @@ repository: "php-debugger/php-debugger"
 
 # Build settings
 markdown: kramdown
-remote_theme: "mmistakes/minimal-mistakes@4.26.2"
+remote_theme: "mmistakes/minimal-mistakes@4.28.0"
 
 # Minimal Mistakes theme settings
 minimal_mistakes_skin: "default"
@@ -33,6 +33,4 @@ defaults:
 
 # Plugins
 plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
   - jekyll-include-cache
