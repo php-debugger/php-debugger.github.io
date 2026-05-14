@@ -69,13 +69,10 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -84,61 +81,12 @@ jobs:
 
       - name: Extract artifact
         run: |
-          mkdir -p pr-${{ github.event.pull_request.number }}
-          tar -xvf ./artifact/artifact.tar -C pr-${{ github.event.pull_request.number }}
+          mkdir -p preview
+          tar -xvf ./artifact/artifact.tar -C preview
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Commit and push PR preview
-        run: |
-          git add pr-${{ github.event.pull_request.number }}
-          git commit -m "Deploy PR #${{ github.event.pull_request.number }} preview" || echo "No changes to commit"
-          git push origin gh-pages
-
-      - name: Comment PR with preview URL
-        uses: actions/github-script@v7
+      - name: Deploy PR Preview
+        uses: rossjrw/pr-preview-action@v1
         with:
-          script: |
-            const prNumber = context.payload.pull_request.number;
-            const previewUrl = `https://php-debugger.github.io/pr-${prNumber}/`;
-
-            const comment = `## 🚀 Preview Deployment
-
-            Your changes have been deployed to a preview environment:
-
-            **Preview URL:** ${previewUrl}
-
-            This preview will be updated automatically when you push new commits to this PR.`;
-
-            // Find existing preview comment
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-            });
-
-            const existingComment = comments.find(c =>
-              c.user.login === 'github-actions[bot]' &&
-              c.body.includes('Preview Deployment')
-            );
-
-            if (existingComment) {
-              // Update existing comment
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: existingComment.id,
-                body: comment
-              });
-            } else {
-              // Create new comment
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body: comment
-              });
-            }
+          source-dir: preview
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
