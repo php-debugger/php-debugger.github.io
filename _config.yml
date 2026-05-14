@@ -1,5 +1,5 @@
 # Site Settings
-title:
+title: " "
 logo: "https://raw.githubusercontent.com/php-debugger/art/main/php-debugger-lockup.png"
 email:
 description: >-
@@ -35,3 +35,13 @@ defaults:
 # Plugins
 plugins:
   - jekyll-include-cache
+
+# Footer
+footer:
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/php-debugger/php-debugger"
+
+atom_feed:
+  hide: true
