@@ -1,7 +1,7 @@
 ---
 layout: splash
 ---
-
+<br>
 # What is PHP Debugger?
 
 A PHP debugging extension focused on step debugging with near-zero overhead.
