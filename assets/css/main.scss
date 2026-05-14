@@ -13,8 +13,12 @@ search: false
   max-height: 4rem !important;
 }
 
-footer {
+.page__footer {
   padding: 0 !important;
-  margin-top: 1em !important;
-  margin-bottom: 1em !important;
+
+  footer {
+    padding: 0 !important;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+  }
 }
