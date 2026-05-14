@@ -1,4 +1,5 @@
 # Site Settings
+title:
 logo: "https://raw.githubusercontent.com/php-debugger/art/main/php-debugger-lockup.png"
 email:
 description: >-

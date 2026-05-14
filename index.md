@@ -1,5 +1,6 @@
 ---
 layout: single
+title:
 ---
 
 ## What is PHP Debugger?
