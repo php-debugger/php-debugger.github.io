@@ -1,9 +1,7 @@
 ---
 layout: splash
 ---
-<div align="center">
 # What is PHP Debugger?
-</div>
 
 A PHP debugging extension focused on step debugging with near-zero overhead.
 
