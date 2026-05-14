@@ -1,0 +1,38 @@
+# Site Settings
+title: PHP Debugger
+email:
+description: >-
+  A PHP debugger extension focused on step debugging with near-zero overhead.
+baseurl: ""
+url: "https://php-debugger.github.io"
+repository: "php-debugger/php-debugger"
+
+# Build settings
+markdown: kramdown
+remote_theme: "mmistakes/minimal-mistakes@4.26.2"
+
+# Minimal Mistakes theme settings
+minimal_mistakes_skin: "default"
+
+# Site Author
+author:
+  name: "PHP Debugger"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/php-debugger/php-debugger"
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: false
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-include-cache
