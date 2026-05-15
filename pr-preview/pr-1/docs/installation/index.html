@@ -256,6 +256,33 @@
         
         <p>Installing PHP Debugger is straightforward and similar to installing other PHP extensions. The extension is available through PIE and can also be compiled from source. Once installed, you’ll need to configure your php.ini file to enable the extension and set up your IDE to communicate with the debugger using the DBGp protocol.</p>
 
+<h2 id="configuration">Configuration</h2>
+
+<p>Add the following to your <code class="language-plaintext highlighter-rouge">php.ini</code> file:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">zend_extension</span><span class="p">=</span><span class="s">php_debugger</span>
+<span class="py">php_debugger.mode</span><span class="p">=</span><span class="s">debug</span>
+<span class="py">php_debugger.start_with_request</span><span class="p">=</span><span class="s">trigger</span>
+<span class="py">php_debugger.client_host</span><span class="p">=</span><span class="s">127.0.0.1</span>
+<span class="py">php_debugger.client_port</span><span class="p">=</span><span class="s">9003</span>
+</code></pre></div></div>
+
+<h2 id="usage-example">Usage Example</h2>
+
+<p>You can trigger breakpoints programmatically in your PHP code:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+<span class="k">function</span> <span class="n">processData</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Process some data</span>
+    <span class="nv">$result</span> <span class="o">=</span> <span class="nf">transform</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+    <span class="c1">// Trigger breakpoint for debugging</span>
+    <span class="nf">php_debugger_break</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
         
       </section>
 
