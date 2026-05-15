@@ -11,8 +11,7 @@
 
 <html lang="en" class="no-js">
   <head>
-    
-<meta charset="utf-8">
+    <meta charset="utf-8">
 
 
 <!-- begin _includes/seo.html --><title></title>
@@ -71,17 +70,61 @@
 <!-- end _includes/seo.html -->
 
 
+
+
+<!-- https://t.co/dKP3o1e -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script>
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
-  
 </script>
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="/website/pr-preview/pr-1/assets/css/main.css">
-<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+<link rel="stylesheet" href="/website/pr-preview/pr-1/assets/css/main.css" id="theme_source">
+
+  <link rel="stylesheet alternate" href="/website/pr-preview/pr-1/assets/css/theme2.css" id="theme_source_2">
+  <script>
+    let theme = sessionStorage.getItem('theme');
+    if(theme === "dark")
+    {
+      sessionStorage.setItem('theme', 'dark');
+      node1 = document.getElementById('theme_source');
+      node2 = document.getElementById('theme_source_2');
+      node1.setAttribute('rel', 'stylesheet alternate');
+      node2.setAttribute('rel', 'stylesheet');
+
+      // Switch logo on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        var logo_light = document.getElementById('logo_light');
+        var logo_dark = document.getElementById('logo_dark');
+        if(logo_light && logo_dark) {
+          logo_light.style.display = 'none';
+          logo_dark.style.display = 'inline';
+        }
+      });
+    }
+    else
+    {
+      sessionStorage.setItem('theme', 'light');
+    }
+  </script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
 
 
 
@@ -109,15 +152,23 @@
 <div class="masthead">
   <div class="masthead__inner-wrap">
     <div class="masthead__menu">
-      <nav id="site-nav" class="greedy-nav" aria-label="Primary navigation">
+      <nav id="site-nav" class="greedy-nav">
         
-          <a class="site-logo" href="/website/pr-preview/pr-1/"><img src="https://raw.githubusercontent.com/php-debugger/art/main/php-debugger-lockup.png" alt=" "></a>
+          <a class="site-logo" href="/website/pr-preview/pr-1/">
+            <img src="https://raw.githubusercontent.com/php-debugger/art/main/php-debugger-lockup.png" alt=" " class="logo-light" id="logo_light">
+            
+              <img src="https://raw.githubusercontent.com/php-debugger/art/main/php-debugger-lockup-white.png" alt=" " class="logo-dark" id="logo_dark" style="display: none;">
+            
+          </a>
         
         <a class="site-title" href="/website/pr-preview/pr-1/">
-          
+           
           
         </a>
         <ul class="visible-links"></ul>
+        
+          <i class="fas fa-fw fa-adjust" aria-hidden="true" onclick="node1=document.getElementById('theme_source');node2=document.getElementById('theme_source_2');logo_light=document.getElementById('logo_light');logo_dark=document.getElementById('logo_dark');if(node1.getAttribute('rel')=='stylesheet'){node1.setAttribute('rel', 'stylesheet alternate'); node2.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'dark');if(logo_light && logo_dark){logo_light.style.display='none';logo_dark.style.display='inline';}}else{node2.setAttribute('rel', 'stylesheet alternate'); node1.setAttribute('rel', 'stylesheet');sessionStorage.setItem('theme', 'light');if(logo_light && logo_dark){logo_light.style.display='inline';logo_dark.style.display='none';}} return false;"></i>
+        
         
         <button class="greedy-nav__toggle hidden" type="button">
           <span class="visually-hidden">Toggle menu</span>
