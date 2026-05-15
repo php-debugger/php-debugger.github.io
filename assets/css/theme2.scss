@@ -3,5 +3,8 @@
 
 @charset "utf-8";
 
+// Override link color before imports
+$link-color: #e24b4a !default;
+
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin2 | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
