@@ -1,0 +1,11 @@
+main:
+  - title: "Docs"
+    url: /docs/introduction/
+
+docs:
+  - title: "Getting Started"
+    children:
+      - title: "Introduction"
+        url: /docs/introduction/
+      - title: "Installation"
+        url: /docs/installation/
