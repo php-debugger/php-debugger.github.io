@@ -1,6 +1,7 @@
 # Site Settings
 title: " "
 logo: "https://raw.githubusercontent.com/php-debugger/art/main/php-debugger-lockup.png"
+logo_dark: "https://raw.githubusercontent.com/php-debugger/art/main/php-debugger-lockup-white.png"
 email:
 description: >-
   A PHP debugger extension focused on step debugging with near-zero overhead.
@@ -13,7 +14,8 @@ markdown: kramdown
 remote_theme: "mmistakes/minimal-mistakes@4.28.0"
 
 # Minimal Mistakes theme settings
-minimal_mistakes_skin: "default"
+minimal_mistakes_skin: "contrast"
+minimal_mistakes_skin2: "dark"
 
 # Site Author
 author:
