@@ -1,0 +1,58 @@
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  /* Theme-inverted like the navbar: dark banner on light pages, light on dark. */
+  background-color: var(--phpdbg-inverse-surface);
+  border: 1px solid var(--phpdbg-card-border);
+  border-radius: 0.75rem;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  min-width: 0;
+}
+
+.text > div {
+  min-width: 0;
+}
+
+.mark {
+  color: var(--ifm-color-primary);
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.title {
+  color: var(--phpdbg-inverse-text);
+  font-size: 1.4rem;
+  margin: 0 0 0.25rem;
+}
+
+.subtitle {
+  color: var(--phpdbg-inverse-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.button {
+  background-color: var(--ifm-color-primary);
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.button:hover {
+  background-color: var(--ifm-color-primary-dark);
+  color: #fff;
+  text-decoration: none;
+}

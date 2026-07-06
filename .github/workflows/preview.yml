@@ -1,0 +1,43 @@
+name: Deploy PR previews
+
+concurrency: preview-${{ github.ref }}
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+jobs:
+  deploy-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+        if: github.event.action != 'closed'
+
+      - name: Install dependencies
+        run: npm ci
+        if: github.event.action != 'closed'
+
+      - name: Build with Docusaurus
+        run: npm run build
+        env:
+          BASE_URL: "/${{ github.event.repository.name }}/pr-preview/pr-${{ github.event.pull_request.number }}/"
+        if: github.event.action != 'closed'
+
+      - name: Deploy PR Preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: build
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto

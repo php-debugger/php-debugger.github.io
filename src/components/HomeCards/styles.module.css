@@ -1,0 +1,99 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--phpdbg-card-border);
+  background-color: var(--ifm-background-surface-color);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardIcon {
+  display: inline-flex;
+  color: var(--ifm-color-primary);
+}
+
+.promptIcon {
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.cardTitle {
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+.cardBody {
+  flex-grow: 1;
+  font-size: 0.9rem;
+}
+
+.cardBody p {
+  color: var(--ifm-color-emphasis-700);
+  margin-bottom: 0.75rem;
+}
+
+.checkList,
+.ideList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checkList li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--ifm-color-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  position: relative;
+  top: 0.15rem;
+}
+
+.ideList li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--phpdbg-card-border);
+  font-weight: 500;
+}
+
+.ideList li:last-child {
+  border-bottom: none;
+}
+
+.cardLink {
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 996px) {
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

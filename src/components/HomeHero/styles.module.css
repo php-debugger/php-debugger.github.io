@@ -1,0 +1,130 @@
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 3rem;
+  align-items: center;
+  padding: 2rem 0 3rem;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.versionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  border-radius: 999px;
+  padding: 0.15rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.mark {
+  font-weight: 800;
+}
+
+.title {
+  font-size: 3rem;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.accent {
+  color: var(--ifm-color-primary);
+}
+
+.tagline {
+  font-size: 1.25rem;
+  color: var(--ifm-color-emphasis-700);
+  margin: 0;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.primaryButton {
+  background-color: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.primaryButton:hover {
+  background-color: var(--ifm-color-primary-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+.promptIcon {
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 700;
+}
+
+.secondaryButton {
+  background-color: var(--phpdbg-dark-panel);
+  color: #fff;
+  border: 1px solid var(--phpdbg-card-border);
+}
+
+.secondaryButton:hover {
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.pill {
+  border: 1px solid var(--phpdbg-card-border);
+  background-color: var(--phpdbg-surface);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+/* No `display` here: it would out-specify ThemedImage's `display: none`
+   and briefly show both theme variants before hydration. */
+.heroImage img {
+  vertical-align: top;
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(229, 50, 45, 0.35);
+  box-shadow:
+    0 0 24px rgba(229, 50, 45, 0.3),
+    0 12px 48px rgba(229, 50, 45, 0.4),
+    0 28px 88px rgba(229, 50, 45, 0.35);
+}
+
+@media (max-width: 996px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    padding-top: 1rem;
+  }
+
+  .title {
+    font-size: 2.25rem;
+  }
+}

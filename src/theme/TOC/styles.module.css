@@ -1,0 +1,87 @@
+/* The wrapper takes over stickiness so the cards scroll together with the TOC
+   instead of the TOC sliding over them. */
+.tocColumn {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1rem);
+  max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+  overflow-y: auto;
+}
+
+.tocColumn :global(.theme-doc-toc-desktop) {
+  position: static;
+  max-height: none;
+}
+
+.card {
+  margin: 1.25rem 0.5rem 0 0;
+  border: 1px solid var(--phpdbg-card-border);
+  background-color: var(--phpdbg-surface);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.mark {
+  color: var(--ifm-color-primary);
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.cardText {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0 0 0.75rem;
+}
+
+.cardButton {
+  display: inline-block;
+  border: 1px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.cardButton:hover {
+  background-color: var(--ifm-color-primary);
+  color: #fff;
+  text-decoration: none;
+}
+
+.feedback {
+  margin: 1rem 0.5rem 0 0;
+  text-align: center;
+}
+
+.feedbackLabel,
+.feedbackThanks {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0 0 0.5rem;
+}
+
+.feedbackButtons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.feedbackButton {
+  border: 1px solid var(--phpdbg-card-border);
+  background-color: var(--ifm-background-surface-color);
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.55rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.feedbackButton:hover {
+  border-color: var(--ifm-color-primary);
+}
