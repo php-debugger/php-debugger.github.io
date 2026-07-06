@@ -1,1 +1,0 @@
-Sitemap: https://php-debugger.github.io/website/pr-preview/pr-1/sitemap.xml
