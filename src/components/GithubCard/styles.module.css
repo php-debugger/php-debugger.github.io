@@ -1,0 +1,37 @@
+.card {
+  margin: 1rem 0.5rem 1rem;
+  border: 1px solid var(--phpdbg-card-border);
+  background-color: var(--phpdbg-surface);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--ifm-font-color-base);
+}
+
+.cardTitle:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.mark {
+  color: var(--ifm-color-primary);
+  font-weight: 800;
+}
+
+.external {
+  margin-left: auto;
+  color: var(--ifm-color-emphasis-500);
+}
+
+.cardText {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}

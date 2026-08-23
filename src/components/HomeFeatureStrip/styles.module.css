@@ -1,0 +1,46 @@
+.strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  border-top: 1px solid var(--phpdbg-card-border);
+  border-bottom: 1px solid var(--phpdbg-card-border);
+  padding: 1.5rem 0;
+  margin-bottom: 2.5rem;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0 0.5rem;
+}
+
+.icon {
+  color: var(--ifm-color-primary);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.itemTitle {
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.itemText {
+  font-size: 0.85rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+}
+
+@media (max-width: 996px) {
+  .strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .strip {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
