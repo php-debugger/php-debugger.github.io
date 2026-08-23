@@ -1,0 +1,106 @@
+---
+title: Installation
+---
+
+import InstallCommand from '@site/src/components/InstallCommand';
+
+The quickest way to get PHP Debugger onto your machine is the installer, a small
+command-line tool that fetches the right build for your system and puts it in
+place. Installing it is a single command.
+
+## 1. Get the installer
+
+<InstallCommand />
+
+The script downloads the latest release and drops the `php-debugger` binary into
+the current directory. Set `INSTALL_DIR` if you would rather it landed somewhere
+else.
+
+:::tip[Prefer Docker?]
+
+Use a container image instead — see [Docker](./docker.md).
+
+:::
+
+## 2. Install the debugger
+
+The installer offers two ways to get a working debugger. Run it with no arguments
+for the default:
+
+```bash
+php-debugger install
+```
+
+That installs a **self-contained PHP interpreter** with the debugger compiled
+straight into it, and makes it the active `php` on your PATH. Nothing else on your
+system needs to change.
+
+If you would rather keep the PHP you already have, install **only the extension**
+into it:
+
+```bash
+php-debugger install --extension-only
+```
+
+The two are mutually exclusive, and the installer knows it: installing the
+interpreter removes any extension you had installed, so you never end up running
+both at once.
+
+A few flags are worth knowing:
+
+| Flag | What it does |
+| --- | --- |
+| `-u, --user` | Install into a per-user directory, so no `sudo` is needed. The default is system-wide. |
+| `-p, --php <x.y>` | Pick the PHP version to install. Defaults to the latest, and applies to the interpreter only. |
+| `-e, --extension-only` | Install just the extension into your current PHP. |
+| `-z, --zts` | Install a thread-safe build instead of the default non-thread-safe one. |
+| `-y, --yes` | Answer yes to every prompt, for unattended or CI use. |
+
+If the directory it installs into is not on your `PATH`, the installer prints the
+exact line you need to add.
+
+## Changing your mind
+
+Nothing here is a one-way door. Whether you installed the interpreter or just the
+extension, whatever it replaced is backed up first — the PHP you already had, or
+the ini configuration it changed. To put things back as they were:
+
+```bash
+php-debugger uninstall
+```
+
+That removes whatever was installed and restores your previous setup from the
+backup — the interpreter it replaced, or the ini configuration it changed. You do
+not have to tell it which kind you installed; it works that out for itself.
+
+The installer also tries hard not to leave you with a broken `php` in the first
+place. It runs the downloaded interpreter before changing anything, so a build
+that cannot run on your system is never installed. After activating it, it checks
+that `php` still runs and reports the debugger module, and rolls everything back to
+the previous working state if either check fails.
+
+## Staying up to date
+
+To move to the latest release:
+
+```bash
+php-debugger update
+```
+
+It takes no arguments. Whether you installed the interpreter or just the
+extension, it detects what is there and reinstalls the same thing against the
+latest version.
+
+:::info[Prefer to install some other way?]
+
+See [More install options](./install-options.md).
+
+:::
+
+## Next steps
+
+With the debugger installed, point your editor at it and set your first
+breakpoint:
+
+- [Quick Start](./quick-start.md)
+- [Configuration](./configuration.md)

@@ -125,7 +125,7 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['php', 'ini', 'bash'],
+        additionalLanguages: ['php', 'ini', 'bash', 'powershell'],
       },
     }),
 };

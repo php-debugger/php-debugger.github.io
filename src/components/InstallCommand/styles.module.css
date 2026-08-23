@@ -1,0 +1,82 @@
+.wrapper {
+  margin-bottom: 1.5rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.tab {
+  border: 1px solid var(--phpdbg-card-border);
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.tabActive,
+.tabActive:hover {
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--phpdbg-card-border);
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Hover stays deliberately neutral. The brand red is what the tabs beside this
+   button use to mean "selected", so an accented Copy button reads as still being
+   active -- which is exactly how it looked after a click, with the pointer still
+   resting on it. The accent is reserved for the moment the copy succeeds. */
+.copy:hover {
+  border-color: var(--ifm-color-emphasis-400);
+  color: var(--ifm-color-emphasis-800);
+}
+
+.copied,
+.copied:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+/* Docusaurus floats its own copy and word-wrap buttons over the top-right of the
+   block. The install command is one long line, so it runs underneath them however
+   far it is scrolled. Copy lives in the bar above instead, and the command wraps
+   so all of it is readable without scrolling sideways. */
+.wrapper :global(div[class*='buttonGroup']) {
+  display: none;
+}
+
+.wrapper :global(pre code) {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
