@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import clsx from 'clsx';
 import CodeBlock from '@theme/CodeBlock';
 import styles from './styles.module.css';
@@ -47,21 +47,75 @@ export default function InstallCommand() {
   }, []);
 
   const active = PLATFORMS.find((p) => p.id === platform) ?? PLATFORMS[0];
+  const [copied, setCopied] = useState(false);
+  const resetTimer = useRef(null);
+
+  useEffect(() => () => clearTimeout(resetTimer.current), []);
+
+  /* Fallback for when the async Clipboard API is unavailable or refused: it needs
+     a secure context, and browsers decline it when the document is not focused.
+     A throwaway textarea and execCommand works in those cases -- it is what
+     Docusaurus's own copy button relies on. */
+  function copyViaTextarea(text) {
+    const field = document.createElement('textarea');
+    field.value = text;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.opacity = '0';
+    document.body.appendChild(field);
+    field.select();
+    let ok = false;
+    try {
+      ok = document.execCommand('copy');
+    } catch {
+      ok = false;
+    }
+    document.body.removeChild(field);
+    return ok;
+  }
+
+  async function copy() {
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(active.command);
+      ok = true;
+    } catch {
+      ok = copyViaTextarea(active.command);
+    }
+    /* Only confirm a copy that actually happened. If both routes fail the label
+       stays put rather than claiming something untrue -- the whole command is on
+       screen and can still be selected by hand. */
+    if (!ok) {
+      return;
+    }
+    setCopied(true);
+    clearTimeout(resetTimer.current);
+    resetTimer.current = setTimeout(() => setCopied(false), 2000);
+  }
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.tabs} role="tablist" aria-label="Operating system">
-        {PLATFORMS.map((p) => (
-          <button
-            key={p.id}
-            type="button"
-            role="tab"
-            aria-selected={p.id === active.id}
-            className={clsx(styles.tab, p.id === active.id && styles.tabActive)}
-            onClick={() => setPlatform(p.id)}>
-            {p.label}
-          </button>
-        ))}
+      <div className={styles.bar}>
+        <div className={styles.tabs} role="tablist" aria-label="Operating system">
+          {PLATFORMS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              role="tab"
+              aria-selected={p.id === active.id}
+              className={clsx(styles.tab, p.id === active.id && styles.tabActive)}
+              onClick={() => setPlatform(p.id)}>
+              {p.label}
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          className={styles.copy}
+          onClick={copy}
+          aria-label={`Copy the ${active.label} install command`}>
+          {copied ? 'Copied' : 'Copy'}
+        </button>
       </div>
       <CodeBlock language={active.language}>{active.command}</CodeBlock>
     </div>

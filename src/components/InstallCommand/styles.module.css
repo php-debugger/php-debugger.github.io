@@ -5,7 +5,6 @@
 .tabs {
   display: flex;
   gap: 0.25rem;
-  margin-bottom: 0.5rem;
 }
 
 .tab {
@@ -29,4 +28,42 @@
   border-color: var(--ifm-color-primary);
   background: var(--ifm-color-primary);
   color: #fff;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.copy {
+  border: 1px solid var(--phpdbg-card-border);
+  background: transparent;
+  color: var(--ifm-color-emphasis-700);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.copy:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+/* Docusaurus floats its own copy and word-wrap buttons over the top-right of the
+   block. The install command is one long line, so it runs underneath them however
+   far it is scrolled. Copy lives in the bar above instead, and the command wraps
+   so all of it is readable without scrolling sideways. */
+.wrapper :global(div[class*='buttonGroup']) {
+  display: none;
+}
+
+.wrapper :global(pre code) {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
