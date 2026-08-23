@@ -60,7 +60,7 @@ export default function HomeCards() {
           </svg>
         }
         title="Key Features"
-        linkTo="/getting-started/introduction#key-features"
+        linkTo="/getting-started/introduction"
         linkLabel="Explore all features">
         <ul className={styles.checkList}>
           {keyFeatures.map((feature) => (
