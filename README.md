@@ -1,4 +1,4 @@
-# website
+# php-debugger.github.io
 
 The code behind the public php-debugger.dev website, built with [Docusaurus](https://docusaurus.io/).
 

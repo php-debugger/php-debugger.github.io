@@ -20,7 +20,7 @@ const config = {
   baseUrl: process.env.BASE_URL || '/',
 
   organizationName: 'php-debugger',
-  projectName: 'website',
+  projectName: 'php-debugger.github.io',
 
   onBrokenLinks: 'throw',
 
