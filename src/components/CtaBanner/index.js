@@ -9,12 +9,11 @@ export default function CtaBanner() {
         <div>
           <h2 className={styles.title}>Ready to debug like a pro?</h2>
           <p className={styles.subtitle}>
-            Join thousands of developers who trust PHP Debugger for their daily
-            workflow.
+            Bring zero-overhead debugging to your daily workflow.
           </p>
         </div>
       </div>
-      <Link className={styles.button} to="/getting-started/quick-start">
+      <Link className={styles.button} to="/getting-started/installation">
         Get Started Now &rarr;
       </Link>
     </section>
