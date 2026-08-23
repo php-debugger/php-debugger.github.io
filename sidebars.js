@@ -12,6 +12,8 @@ const sidebars = {
       items: [
         'getting-started/introduction',
         'getting-started/installation',
+        'getting-started/docker',
+        'getting-started/install-options',
         'getting-started/quick-start',
         'getting-started/configuration',
       ],

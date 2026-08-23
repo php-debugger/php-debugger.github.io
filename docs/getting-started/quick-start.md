@@ -2,7 +2,7 @@
 title: Quick Start
 ---
 
-Get up and running with PHP Debugger in a few minutes. This guide assumes you have already [installed](./installation.md) the extension.
+Get up and running with PHP Debugger in a few minutes. This guide assumes you have already [installed](./installation.mdx) the extension.
 
 ## 1. Enable the debugger
 

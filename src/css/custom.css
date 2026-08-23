@@ -156,3 +156,28 @@ article a {
 #page-top {
   scroll-margin-top: calc(var(--ifm-navbar-height) + 1rem);
 }
+
+/* Admonitions ship in Infima's green/blue/grey, which reads as a foreign palette
+   next to the neutral surfaces and single red accent used everywhere else. Put
+   the informational ones on the same card surface as the rest of the site, with
+   the brand red as the accent.
+
+   Deliberately not warning and danger: those are meant to stop the reader, and
+   they can only do that if they still look different from an ordinary aside. */
+.theme-admonition-note,
+.theme-admonition-tip,
+.theme-admonition-info {
+  --ifm-alert-background-color: var(--phpdbg-surface);
+  --ifm-alert-background-color-highlight: transparent;
+  --ifm-alert-foreground-color: var(--ifm-font-color-base);
+  --ifm-alert-border-color: var(--ifm-color-primary);
+  border: 1px solid var(--phpdbg-card-border);
+  border-left: 3px solid var(--ifm-color-primary);
+  border-radius: 0.75rem;
+}
+
+.theme-admonition-note [class*='admonitionIcon'] svg,
+.theme-admonition-tip [class*='admonitionIcon'] svg,
+.theme-admonition-info [class*='admonitionIcon'] svg {
+  fill: var(--ifm-color-primary);
+}
