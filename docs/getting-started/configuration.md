@@ -2,7 +2,7 @@
 title: Configuration
 ---
 
-PHP Debugger is configured through `php.ini` directives. Because it is a fork of Xdebug, most settings will look familiar — with the `php_debugger.` prefix.
+PHP Debugger is configured through `php.ini` directives, all carrying the `php_debugger.` prefix. If you have set up step debugging for PHP before, most settings will look familiar.
 
 ## Common settings
 

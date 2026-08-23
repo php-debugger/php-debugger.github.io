@@ -44,7 +44,7 @@ const features = [
   },
   {
     title: 'Zero Dependencies',
-    text: 'No Xdebug required. Pure PHP implementation.',
+    text: 'A single Zend extension. Nothing else to install.',
     icon: (
       <svg {...iconProps}>
         <path d="M12 2 21 7v10l-9 5-9-5V7l9-5z" />
