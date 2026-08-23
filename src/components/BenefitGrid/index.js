@@ -17,8 +17,9 @@ const benefits = [
     text: 'With no debug client connected, the debugger stays out of the way. A typical web request does around 1% more work than running with no debugger at all.',
     icon: (
       <svg {...iconProps}>
-        <path d="M4 18a8 8 0 1 1 16 0" />
-        <path d="M12 18l4.5-5" />
+        <path d="M3 16a9 9 0 1 1 18 0" />
+        <path d="M12 16l5.5-6" />
+        <circle cx="12" cy="16" r="1.4" />
       </svg>
     ),
   },
@@ -54,11 +55,26 @@ const benefits = [
     ),
   },
   {
+    title: 'Everything you expect',
+    text: 'Breakpoints and conditional breakpoints. Step over, into, and out. Inspect variables, objects, and arrays, and watch expressions change as you go.',
+    icon: (
+      <svg {...iconProps}>
+        <rect x="6" y="7" width="12" height="13" rx="6" />
+        <path d="M9 7.5V6a3 3 0 0 1 6 0v1.5" />
+        <path d="M12 11v8" />
+        <path d="M2.5 11.5H6M18 11.5h3.5" />
+        <path d="M3.5 17.5 6 16M20.5 17.5 18 16" />
+      </svg>
+    ),
+  },
+  {
     title: 'One job, done well',
     text: 'No profiler, no code coverage, no tracing. Step debugging is the only thing here, which is exactly why the rest of the time it costs you so little.',
     icon: (
       <svg {...iconProps}>
-        <path d="M4 7h16M7 12h10M10 17h4" />
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="12" r="5" />
+        <circle cx="12" cy="12" r="1.4" />
       </svg>
     ),
   },
@@ -67,9 +83,8 @@ const benefits = [
     text: 'Use it as a regular extension, or reach for a container image with the debugger compiled straight into the interpreter. Change one line of your Dockerfile and you are done.',
     icon: (
       <svg {...iconProps}>
-        <rect x="7" y="7" width="10" height="10" rx="1.5" />
-        <path d="M10 3v4M14 3v4M10 17v4M14 17v4" />
-        <path d="M3 10h4M3 14h4M17 10h4M17 14h4" />
+        <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7z" />
+        <path d="M8.5 12l2.5 2.5 4.5-4.5" />
       </svg>
     ),
   },
