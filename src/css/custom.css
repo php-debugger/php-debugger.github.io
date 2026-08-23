@@ -149,3 +149,10 @@ article a {
 .breadcrumbs__link {
   font-size: 0.8rem;
 }
+
+/* Anchor that src/theme/DocItem/Content puts on the page title, so the "on this
+   page" title entry has something to link to. Docusaurus only gives its own
+   headings the offset that clears the sticky navbar, so set it here too. */
+#page-top {
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 1rem);
+}
