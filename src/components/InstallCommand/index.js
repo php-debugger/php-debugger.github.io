@@ -10,6 +10,31 @@ const UNIX_COMMAND =
 const WINDOWS_COMMAND =
   'powershell -c "irm https://github.com/php-debugger/installer/releases/latest/download/install.ps1 | iex"';
 
+const iconProps = {
+  width: 15,
+  height: 15,
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 2,
+  strokeLinecap: 'round',
+  strokeLinejoin: 'round',
+  'aria-hidden': true,
+};
+
+const CopyIcon = () => (
+  <svg {...iconProps}>
+    <rect x="9" y="9" width="11" height="11" rx="2" />
+    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg {...iconProps}>
+    <path d="M20 6 9 17l-5-5" />
+  </svg>
+);
+
 const PLATFORMS = [
   {id: 'macos', label: 'macOS', language: 'bash', command: UNIX_COMMAND},
   {id: 'linux', label: 'Linux', language: 'bash', command: UNIX_COMMAND},
@@ -74,7 +99,8 @@ export default function InstallCommand() {
     return ok;
   }
 
-  async function copy() {
+  async function copy(event) {
+    event.currentTarget.blur();
     let ok = false;
     try {
       await navigator.clipboard.writeText(active.command);
@@ -111,9 +137,10 @@ export default function InstallCommand() {
         </div>
         <button
           type="button"
-          className={styles.copy}
+          className={clsx(styles.copy, copied && styles.copied)}
           onClick={copy}
           aria-label={`Copy the ${active.label} install command`}>
+          {copied ? <CheckIcon /> : <CopyIcon />}
           {copied ? 'Copied' : 'Copy'}
         </button>
       </div>
