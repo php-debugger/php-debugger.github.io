@@ -1,0 +1,66 @@
+---
+title: PIE
+---
+
+import ConsoleSample from '@site/src/components/ConsoleSample';
+
+[PIE](https://github.com/php/pie) — the PHP Installer for Extensions, from the PHP
+Foundation — is the standard way to install PHP extensions. It compiles the
+debugger against the PHP you already have and enables it for you.
+
+This installs the **extension**, not the interpreter. Your existing PHP stays
+exactly where it is.
+
+## Before you start
+
+PIE builds the extension on your machine, so you need a working build toolchain:
+a compiler, `make`, `autoconf`, `libtool`, and `unzip`. Most systems used for
+development already have these.
+
+## 1. Get PIE
+
+Skip this if you already have it. Full instructions are in the
+[PIE documentation](https://github.com/php/pie#installation); the short version is
+to download the phar and put it on your PATH:
+
+```bash
+curl -fsSL https://github.com/php/pie/releases/latest/download/pie.phar \
+    -o /usr/local/bin/pie
+chmod +x /usr/local/bin/pie
+```
+
+## 2. Install the debugger
+
+```bash
+pie install php-debugger/php-debugger
+```
+
+PIE resolves the latest release, compiles it against your PHP, installs the
+resulting `php_debugger.so` into your extension directory, and enables it. If
+build tools are missing it will tell you which ones, and `--auto-install-build-tools`
+lets it install them for you.
+
+## 3. Check it worked
+
+<ConsoleSample>{`$ php -v
+PHP 8.4.23 (cli) (built: Jul  2 2026 20:39:24) (NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.4.23, Copyright (c) Zend Technologies
+    with Zend OPcache v8.4.23, Copyright (c), by Zend Technologies
+    with PHP Debugger v__VERSION__, Copyright (c) 2002-2026, by Derick Rethans`}</ConsoleSample>
+
+The defaults need no configuration: debugging is on, every request starts a
+session, and the debugger connects on port 9003 whenever your IDE is listening.
+
+## Updating and removing
+
+`pie install` again to move to a newer release. To remove the extension, delete
+the `.ini` file PIE wrote and the `php_debugger.so` it installed —
+`php --ini` and `php-config --extension-dir` will tell you where both live.
+
+:::note[Want something that undoes itself?]
+
+The [installer](../installation.mdx) backs up whatever it replaces and restores it
+on `php-debugger uninstall`, which PIE does not do.
+
+:::

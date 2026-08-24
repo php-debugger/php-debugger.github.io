@@ -1,0 +1,106 @@
+---
+title: Prebuilt binaries
+---
+
+import ConsoleSample from '@site/src/components/ConsoleSample';
+
+Every release ships ready-built binaries on the
+[Releases page](https://github.com/php-debugger/php-debugger/releases): a complete
+PHP **interpreter** with the debugger compiled in, and the **extension** on its own.
+Nothing is compiled on your machine, and no installer is involved — you download a
+file and put it somewhere.
+
+The catch is that you pick the right file yourself. Get it wrong and PHP either
+refuses to load the extension or fails to start.
+
+## Work out what you need
+
+Three things have to match your PHP: the **minor version**, the **thread safety**,
+and your **platform**.
+
+```bash
+php -v                          # 8.4.x -> you want the php8.4 files
+php -i | grep "Thread Safety"   # disabled -> nts,  enabled -> ts
+php-config --extension-dir      # where the extension has to go
+```
+
+`Thread Safety => disabled` means you want the `nts` files, which is what a normal
+CLI or PHP-FPM build is. `enabled` means `ts`.
+
+## File names
+
+Builds are published for PHP 8.2 to 8.5, thread-safe and not, on Linux, macOS and
+Windows, for both `arm64` and `x86_64`:
+
+| What | File |
+| --- | --- |
+| Interpreter | `php-php8.4-nts-linux-arm64` |
+| Interpreter (Windows) | `php-php8.4-nts-windows-x64.exe` |
+| Extension | `php-debugger-php8.4-nts-linux-arm64.so` |
+| Extension (Windows) | `php_php-debugger-php8.4-nts-windows-x64.dll` |
+
+Swap `8.4` for your PHP version, `nts` for `ts` if your build is thread-safe, and
+the platform for yours — `linux`, `macos` or `windows`, with `arm64` or `x86_64`
+(`x64` on Windows).
+
+## The interpreter
+
+A single self-contained file. Download it, make it executable, and run it:
+
+```bash
+curl -fsSL -o php-debugger \
+  https://github.com/php-debugger/php-debugger/releases/latest/download/php-php8.4-nts-linux-arm64
+chmod +x php-debugger
+./php-debugger -v
+```
+
+<ConsoleSample>{`PHP 8.4.23 (cli) (built: Jul  2 2026 20:39:24) (NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.4.23, Copyright (c) Zend Technologies
+    with PHP Debugger v__VERSION__, Copyright (c) 2002-2026, by Derick Rethans`}</ConsoleSample>
+
+Put it on your PATH if you want it to be the `php` you run. Nothing needs
+enabling — the debugger is compiled in, debugging is on by default, and every
+request starts a session.
+
+## The extension
+
+Download the `.so` into your extension directory, then load it from `php.ini`:
+
+```bash
+curl -fsSL -o "$(php-config --extension-dir)/php_debugger.so" \
+  https://github.com/php-debugger/php-debugger/releases/latest/download/php-debugger-php8.4-nts-linux-arm64.so
+```
+
+```ini
+zend_extension=php_debugger.so
+```
+
+It must be `zend_extension`, not `extension` — the debugger hooks into the engine
+and has to be registered as a Zend extension. Check it loaded:
+
+<ConsoleSample>{`$ php -v
+...
+    with PHP Debugger v__VERSION__, Copyright (c) 2002-2026, by Derick Rethans`}</ConsoleSample>
+
+If PHP starts but the debugger is missing, or you get a "Zend Extension build ID"
+mismatch, the file does not match your PHP — check the version and thread safety
+again.
+
+:::note[On macOS]
+
+A file downloaded through a **browser** is quarantined, and Gatekeeper will refuse
+to run it. Downloading with `curl` as shown avoids that. If you did use a browser,
+clear the flag once:
+
+```bash
+xattr -d com.apple.quarantine ./php-debugger
+```
+
+:::
+
+## Staying up to date
+
+There is nothing to update these for you — download the newer file and replace the
+old one. The [installer](../installation.mdx) does this with `php-debugger update`
+if you would rather not track releases yourself.
