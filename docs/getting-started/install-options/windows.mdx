@@ -1,0 +1,127 @@
+---
+title: Building on Windows
+---
+
+Windows builds PHP and its extensions with Visual Studio and the PHP SDK rather
+than `phpize` and `make`, so the process is different enough to be worth its own
+page. The debugger-specific part is the same everywhere: a
+`--enable-php-debugger` flag.
+
+As on other platforms, [building from source](./from-source.mdx) is a last resort.
+Every release ships [prebuilt Windows binaries](./binaries.mdx) — both the DLL and
+a complete `php.exe` — and they are built exactly the way this page describes.
+
+## What you need
+
+- **[PHP SDK binary tools](https://github.com/php/php-sdk-binary-tools)** — the
+  build environment, cloned from GitHub.
+- **Visual Studio with the C++ build tools.** Releases are built with VS 2022,
+  which the SDK calls `vs17`.
+- For an extension build, a **development pack** matching your PHP from
+  [windows.php.net](https://windows.php.net/download/).
+
+PHP's [step-by-step build guide](https://wiki.php.net/internals/windows/stepbystepbuild_sdk_2)
+covers getting the SDK set up in more detail than makes sense to repeat here.
+
+Everything below runs inside an SDK shell. You get one by running the starter
+script with the compiler and architecture you are targeting, which sets up the
+Visual Studio environment for the commands that follow:
+
+```batch
+git clone https://github.com/php/php-sdk-binary-tools.git C:\php-sdk
+C:\php-sdk\phpsdk-vs17-x64.bat
+```
+
+## The extension
+
+With a development pack in place, the flow mirrors the one on Linux and macOS:
+
+```batch
+phpize
+configure --enable-php-debugger
+nmake
+```
+
+The build produces `php_php_debugger.dll`. Copy it into your `ext` directory and
+load it from `php.ini`:
+
+```ini
+zend_extension=php_php_debugger.dll
+```
+
+It must be `zend_extension`, not `extension` — the debugger hooks into the engine
+and has to be registered as a Zend extension.
+
+:::tip[Building DLLs in CI]
+
+If you are producing DLLs automatically rather than on a desktop, the
+[php-windows-builder](https://github.com/php/php-windows-builder) action does the
+whole job, and is what this project's own release builds use. Pass
+`--enable-php-debugger` as its `args`.
+
+:::
+
+## The interpreter
+
+To build a `php.exe` with the debugger compiled in, you build PHP itself with the
+extension sitting inside its source tree.
+
+**1. Set up a build tree.** The SDK wants a specific directory layout:
+
+```batch
+git clone https://github.com/php/php-sdk-binary-tools.git C:\php-sdk
+C:\php-sdk\bin\phpsdk_buildtree.bat phpdev vs17 x64
+```
+
+**2. Clone PHP into it, and copy the debugger into `ext`.** Use the tag for the
+PHP version you want:
+
+```batch
+git clone --depth=1 --branch=php-8.4.23 https://github.com/php/php-src.git ^
+    C:\php-sdk\phpdev\vs17\x64\php-src
+git clone https://github.com/php-debugger/php-debugger.git ext-src
+xcopy /E /I /Y ext-src C:\php-sdk\phpdev\vs17\x64\php-src\ext\php_debugger
+```
+
+**3. Write a build script.** The build has to run inside the SDK shell, so put the
+steps in a batch file and hand that to the starter script rather than typing them
+interactively:
+
+```batch
+cd /d C:\php-sdk\phpdev\vs17\x64\php-src
+call buildconf.bat --force
+call configure.bat --enable-php-debugger --disable-opcache-jit
+nmake
+```
+
+`--disable-opcache-jit` matters: the JIT compiler is incompatible with the
+debugger's engine hooks. Release builds also add the usual complement of
+extensions — `--enable-mbstring`, `--enable-mysqlnd`, `--with-curl`,
+`--with-openssl` and so on — and pass `--enable-zts` for a thread-safe build.
+
+**4. Run it through the SDK.**
+
+```batch
+C:\php-sdk\phpsdk-starter.bat -c vs17 -a x64 -t C:\php-sdk\phpdev\vs17\x64\php-src\build.bat
+```
+
+**5. Find the result.** It lands under the build directory, in `Release` for a
+non-thread-safe build or `Release_TS` for a thread-safe one:
+
+```batch
+C:\php-sdk\phpdev\vs17\x64\php-src\x64\Release\php.exe -v
+```
+
+The debugger appears in `php -v` and in `php -m`, with nothing to enable.
+
+## If the build fails
+
+- **`configure.bat` is not recognised** — you are not in an SDK shell. Start one
+  with `phpsdk-vs17-x64.bat`, or run your build script through
+  `phpsdk-starter.bat`.
+- **`php.exe` is not where you expected** — check both `x64\Release` and
+  `Release`, and the `_TS` variants if you built thread-safe.
+- **The DLL will not load** — it has to match your PHP on minor version, thread
+  safety, architecture, and Visual Studio version. All four.
+- **PHP starts without the debugger** — you loaded it with `extension=` instead of
+  `zend_extension=`.

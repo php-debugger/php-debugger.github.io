@@ -13,7 +13,17 @@ const sidebars = {
         'getting-started/introduction',
         'getting-started/installation',
         'getting-started/docker',
-        'getting-started/install-options',
+        {
+          type: 'category',
+          label: 'More install options',
+          link: {type: 'doc', id: 'getting-started/install-options/index'},
+          items: [
+            'getting-started/install-options/pie',
+            'getting-started/install-options/binaries',
+            'getting-started/install-options/from-source',
+            'getting-started/install-options/windows',
+          ],
+        },
         'getting-started/quick-start',
         'getting-started/configuration',
       ],

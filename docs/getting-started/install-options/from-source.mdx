@@ -1,0 +1,99 @@
+---
+title: Building from source
+---
+
+import ConsoleSample from '@site/src/components/ConsoleSample';
+
+:::warning[Try something else first]
+
+Every other option on this page gives you a build that has already been tested on
+the platform you are running. Building from source is the right answer when
+nothing else covers your platform, or when you are changing the debugger's code —
+not as a default.
+
+:::
+
+You can build either the **extension** on its own, which is the ordinary case, or a
+complete **PHP interpreter** with the debugger compiled into it.
+
+This page covers Linux and macOS. Windows uses a different toolchain and has its
+own page: [Building on Windows](./windows.mdx).
+
+Requires PHP 8.2 to 8.5. The build refuses to configure outside that range.
+
+## The extension
+
+You need PHP's development headers and a build toolchain: a compiler, `make`,
+`autoconf` and `libtool`. On Debian and Ubuntu that is `build-essential`,
+`autoconf`, `libtool` and `php-dev`; on Alpine you also need `linux-headers`,
+because the build uses `linux/rtnetlink.h`.
+
+```bash
+git clone https://github.com/php-debugger/php-debugger.git
+cd php-debugger
+
+phpize
+./configure --enable-php-debugger
+make -j$(nproc)
+```
+
+That leaves `modules/php_debugger.so`. Try it without installing anything:
+
+```bash
+php -d zend_extension=$PWD/modules/php_debugger.so -v
+```
+
+<ConsoleSample>{`PHP 8.4.23 (cli) (built: Jul  2 2026 20:39:24) (NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.4.23, Copyright (c) Zend Technologies
+    with Zend OPcache v8.4.23, Copyright (c), by Zend Technologies
+    with PHP Debugger v__VERSION__, Copyright (c) 2002-2026, by Derick Rethans`}</ConsoleSample>
+
+To keep it, copy the file into your extension directory and load it from
+`php.ini`:
+
+```bash
+cp modules/php_debugger.so "$(php-config --extension-dir)/"
+```
+
+```ini
+zend_extension=php_debugger.so
+```
+
+Always `zend_extension`, never `extension` — the debugger hooks into the engine
+and has to be registered as a Zend extension.
+
+`phpize` uses whichever PHP is first on your PATH. If you have several installed,
+point the build at the right one with `./configure --with-php-config=/path/to/php-config`.
+
+## The interpreter
+
+Building PHP itself with the debugger linked in is what the prebuilt interpreter
+binaries and the Docker images are. You compile it as part of PHP rather than
+against it:
+
+```bash
+git clone --depth=1 --branch=PHP-8.4 https://github.com/php/php-src.git
+git clone https://github.com/php-debugger/php-debugger.git
+
+cp -r php-debugger php-src/ext/php_debugger
+mkdir -p php-src/m4 && cp php-debugger/m4/*.m4 php-src/m4/
+
+cd php-src
+./buildconf --force
+./configure --enable-php-debugger    # plus whatever else you need
+make -j$(nproc)
+```
+
+The result is `sapi/cli/php`, with the debugger reported by `php -v` and no
+extension to enable. The `./configure` line above is the minimum; a PHP you intend
+to actually use will want the usual complement of extensions and SAPIs.
+
+## If the build fails
+
+- **`not supported. Need a PHP version >= 8.0.0 and < 8.7.0`** — `phpize` picked up
+  a PHP outside the supported range. Check `php-config --version`.
+- **`rtnetlink.h` not found** — install your distribution's kernel headers
+  (`apk add linux-headers` on Alpine).
+- **PHP starts without the debugger** — you loaded it with `extension=` instead of
+  `zend_extension=`.
