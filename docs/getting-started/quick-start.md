@@ -53,5 +53,5 @@ See [IDE Support](../integrations/ide-support.md) for PhpStorm, VS Code and Neov
 
 ## Next steps
 
+- [Starting the debugger](../user-guide/starting-the-debugger.md) — if you need something other than the defaults
 - [Breakpoints](../user-guide/breakpoints.md) and [step debugging](../user-guide/step-debugging.md)
-- [Configuration](./configuration.md) — everything you can change, if you need to

@@ -25,7 +25,6 @@ const sidebars = {
           ],
         },
         'getting-started/quick-start',
-        'getting-started/configuration',
       ],
     },
     {
@@ -33,6 +32,7 @@ const sidebars = {
       label: 'User Guide',
       collapsed: false,
       items: [
+        'user-guide/starting-the-debugger',
         'user-guide/breakpoints',
         'user-guide/step-debugging',
         'user-guide/inspect-variables',
