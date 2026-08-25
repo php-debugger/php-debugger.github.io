@@ -1,14 +1,19 @@
 import Link from '@docusaurus/Link';
 import ThemedImage from '@theme/ThemedImage';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './styles.module.css';
 
 export default function HomeHero() {
+  /* Resolved from the latest GitHub release at build time -- see
+     docusaurus.config.js. Hardcoding it here meant the badge drifted. */
+  const {siteConfig} = useDocusaurusContext();
   return (
     <header className={styles.hero}>
       <div className={styles.heroText}>
         <span className={styles.versionBadge}>
-          <span className={styles.mark}>{'{•}'}</span> v1.3.0
+          <span className={styles.mark}>{'{•}'}</span>{' '}
+          {`v${siteConfig.customFields.debuggerVersion}`}
         </span>
         <h1 className={styles.title}>
           Zero-overhead debugging for <span className={styles.accent}>PHP</span>
@@ -17,7 +22,7 @@ export default function HomeHero() {
           A lightweight, powerful debugger that doesn&apos;t slow you down.
         </p>
         <div className={styles.buttons}>
-          <Link className={styles.primaryButton} to="/getting-started/quick-start">
+          <Link className={styles.primaryButton} to="/getting-started/installation">
             <span className={styles.promptIcon}>&gt;_</span> Quick Start
           </Link>
           <Link
@@ -27,9 +32,8 @@ export default function HomeHero() {
           </Link>
         </div>
         <div className={styles.pills}>
-          <span className={styles.pill}>&#11088; 1.4k+ stars</span>
-          <span className={styles.pill}>&#9878;&#65039; MIT License</span>
-          <span className={styles.pill}>&#128024; PHP 7.4+</span>
+          <span className={styles.pill}>&#128154; Free and Open Source</span>
+          <span className={styles.pill}>&#128024; PHP 8.2+</span>
         </div>
       </div>
       <div className={styles.heroImage}>
