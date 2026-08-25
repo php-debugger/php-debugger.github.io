@@ -2,36 +2,56 @@
 title: Quick Start
 ---
 
-Get up and running with PHP Debugger in a few minutes. This guide assumes you have already [installed](./installation.mdx) the extension.
+You have [installed](./installation.mdx) PHP Debugger. This is everything else —
+which, in most cases, is nothing at all.
 
-## 1. Enable the debugger
+## 1. Load it
 
-Add the following to your `php.ini` file:
+**If you installed the interpreter** — the build with the debugger compiled in,
+which is what the installer and the Docker images give you by default — there is
+nothing to load. Skip to step 3.
+
+**If you installed the extension**, one line in `php.ini`:
 
 ```ini
-zend_extension=php_debugger
-php_debugger.mode=debug
-php_debugger.start_with_request=trigger
+zend_extension=php_debugger.so
 ```
 
-## 2. Start listening in your IDE
+It has to be `zend_extension`, not `extension`.
 
-Configure your IDE to listen for debug connections on port `9003` (the default). See the [IDE Support](../integrations/ide-support.md) guide for instructions for PhpStorm, VS Code, and Neovim.
+## 2. Delete everything else
 
-## 3. Set a breakpoint and run
+Debugging is on by default and starts with every request, so the settings you may
+be used to are unnecessary. Remove them if they are already there:
 
-Set a breakpoint in your editor, then trigger a debug session:
+- `php_debugger.mode` (or `xdebug.mode`) — already `debug`
+- `php_debugger.start_with_request` (or `xdebug.start_with_request`) — already `yes`
+- any line loading Xdebug, such as `zend_extension=xdebug.so` — PHP Debugger takes
+  its place, and loading both will not work
 
-- **Web request**: add `XDEBUG_TRIGGER=1` as a cookie, GET, or POST parameter.
-- **CLI script**: set the trigger in the environment:
+There is no trigger to set and no environment variable to remember.
 
-```bash
-XDEBUG_TRIGGER=1 php your-script.php
-```
+## 3. Check where it connects
 
-The debugger connects to your IDE, pauses at your breakpoint, and you can step through code, inspect variables, and evaluate expressions.
+The debugger connects out to your editor. Two settings decide where:
+
+| Setting | Default |
+| --- | --- |
+| `php_debugger.client_host` | `localhost` |
+| `php_debugger.client_port` | `9003` |
+
+Those are right when your editor and your code run on the same machine. They are
+not right from inside a container, where `localhost` is the container itself — see
+[Docker](./docker.mdx) for the setup that fixes it.
+
+## 4. Set a breakpoint
+
+Start your editor listening on port `9003`, set a breakpoint, and run your code.
+The debugger connects, pauses, and hands you the session.
+
+See [IDE Support](../integrations/ide-support.md) for PhpStorm, VS Code and Neovim.
 
 ## Next steps
 
-- Learn about [breakpoints](../user-guide/breakpoints.md) and [step debugging](../user-guide/step-debugging.md).
-- Fine-tune behaviour in the [Configuration](./configuration.md) guide.
+- [Breakpoints](../user-guide/breakpoints.md) and [step debugging](../user-guide/step-debugging.md)
+- [Configuration](./configuration.md) — everything you can change, if you need to
