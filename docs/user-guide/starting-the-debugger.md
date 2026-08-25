@@ -111,10 +111,13 @@ The cost of running the debugger depends on what it is doing:
 | Breakpoints set, stepping through code | Real, and unavoidable — this is the work you asked for. |
 
 The middle row is the one that catches people out. A session you forgot about is
-not free, and neither are breakpoints you no longer need. Two habits keep things
-fast:
+not free, and neither are breakpoints you no longer need.
+
+:::tip[Two habits worth keeping]
 
 - **Remove breakpoints once you are done with them.** Every one left behind is
   checked on every request.
 - **Disconnect your editor when you stop debugging.** With nothing listening, the
   debugger drops back to costing almost nothing.
+
+:::
