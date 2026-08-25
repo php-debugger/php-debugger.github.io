@@ -22,13 +22,13 @@ const features = [
     ),
   },
   {
-    title: 'Powerful Features',
-    text: 'Breakpoints, watches, step debugging, and more.',
+    title: 'Fully Compatible',
+    text: 'Your existing settings and IDE setup keep working.',
     icon: (
       <svg {...iconProps}>
-        <circle cx="12" cy="12" r="9" />
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 3v3M12 18v3M3 12h3M18 12h3" />
+        <path d="M9 3v6M15 3v6" />
+        <path d="M7 9h10v3a5 5 0 0 1-10 0V9z" />
+        <path d="M12 17v4" />
       </svg>
     ),
   },
@@ -43,12 +43,12 @@ const features = [
     ),
   },
   {
-    title: 'Zero Dependencies',
-    text: 'A single Zend extension. Nothing else to install.',
+    title: 'Always Available',
+    text: 'Leave it on. It costs almost nothing until you debug.',
     icon: (
       <svg {...iconProps}>
-        <path d="M12 2 21 7v10l-9 5-9-5V7l9-5z" />
-        <path d="M3.5 7.5 12 12l8.5-4.5M12 12v9.5" />
+        <path d="M12 3v9" />
+        <path d="M7.5 6.5a8 8 0 1 0 9 0" />
       </svg>
     ),
   },
