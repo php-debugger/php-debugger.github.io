@@ -2,8 +2,8 @@
 title: Connecting to a Client
 ---
 
-The connection is made by PHP, not by your editor. Your editor waits on a port,
-and when a session starts the debugger reaches out to it and opens the connection.
+The connection is made by PHP, not by your editor. Your editor waits on a port and,
+when a session starts, the debugger reaches out to it and opens the connection.
 Nothing listens on the PHP side, so there is no port to expose and nothing to let
 through a firewall on the way in.
 
@@ -94,22 +94,16 @@ that much, which is why the default is small.
 Raise it if the connection has to cross a real network and 200 ms is not enough to
 complete a handshake — a few hundred more is usually plenty.
 
-## Connecting through a relay
+## Connect using Xdebug Cloud
 
-`php_debugger.cloud_id` is for the case where the debugger cannot reach your
-machine at all — the code runs behind a firewall or a NAT you do not control, and
-no address you set would connect. Instead of dialing your editor, the debugger
-dials a hosted relay, and your editor connects to the same relay from its side.
+When the debugger cannot reach your machine at all — the code runs behind a
+firewall or a NAT you do not control — Xdebug Cloud can relay the session instead.
+Set the ID it gives you:
 
 ```ini
 php_debugger.cloud_id=your-id-here
 ```
 
-The ID comes from the relay service, and both ends must use it. Setting it takes
-priority over `client_host` — leave it empty, as it is by default, and connections
-stay direct. Unlike the other settings on this page, it can only be set in
-`php.ini`.
-
-The relay is a third-party, paid service; see
-[its documentation](https://xdebug.org/docs/cloud) for what it costs and how to get
-an ID.
+Setting it takes priority over `client_host`, and unlike the other settings on this
+page it can only be set in `php.ini`. See the
+[Xdebug Cloud documentation](https://xdebug.org/docs/cloud) for how to get an ID.
