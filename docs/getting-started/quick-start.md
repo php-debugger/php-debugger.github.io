@@ -42,7 +42,9 @@ The debugger connects out to your editor. Two settings decide where:
 
 Those are right when your editor and your code run on the same machine. They are
 not right from inside a container, where `localhost` is the container itself — see
-[Docker](./docker.mdx) for the setup that fixes it.
+[Docker](./docker.mdx) for the setup that fixes it, or
+[connecting to a client](../user-guide/connecting-to-a-client.md) for the rest of
+the connection settings.
 
 ## 4. Set a breakpoint
 

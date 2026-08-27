@@ -33,6 +33,7 @@ const sidebars = {
       collapsed: false,
       items: [
         'user-guide/starting-the-debugger',
+        'user-guide/connecting-to-a-client',
         'user-guide/breakpoints',
         'user-guide/step-debugging',
         'user-guide/inspect-variables',
