@@ -118,7 +118,7 @@ const config = {
             position: 'left',
           },
           {
-            to: '/user-guide/breakpoints',
+            to: '/user-guide/starting-the-debugger',
             label: 'Guide',
             position: 'left',
           },
@@ -128,8 +128,8 @@ const config = {
             position: 'left',
           },
           {
-            to: '/reference/debug-protocol',
-            label: 'API',
+            to: '/integrations/ide-support',
+            label: 'Integrations',
             position: 'left',
           },
           {
