@@ -3,7 +3,7 @@
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: 3rem;
   align-items: center;
-  padding: 2rem 0 3rem;
+  padding: 0 0 3rem;
 }
 
 .heroText {
