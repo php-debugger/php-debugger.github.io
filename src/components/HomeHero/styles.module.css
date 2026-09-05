@@ -121,7 +121,6 @@
   .hero {
     grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
-    padding-top: 1rem;
   }
 
   .title {
