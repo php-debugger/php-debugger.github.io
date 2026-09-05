@@ -75,6 +75,22 @@
   margin-right: 2rem;
 }
 
+/* The lockup is 4.5:1, so a fixed 4rem height makes it 288px wide -- wider than
+   the room left beside the hamburger and search on a small phone, which pushed
+   the whole document sideways. Below the navbar's own breakpoint let the width
+   lead and the height follow, so it shrinks to fit instead of overflowing. */
+@media (max-width: 996px) {
+  .navbar__brand {
+    margin-right: 0.5rem;
+  }
+
+  .navbar__logo {
+    height: auto;
+    max-height: 4rem;
+    max-width: 55vw;
+  }
+}
+
 
 .navbar__link {
   font-weight: 500;
