@@ -39,7 +39,6 @@ const sidebars = {
         'user-guide/inspect-variables',
         'user-guide/watches-and-edits',
         'user-guide/logging',
-        'user-guide/error-handling',
       ],
     },
     {

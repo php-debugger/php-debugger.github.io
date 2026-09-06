@@ -46,6 +46,23 @@ in the PHP error log for it.
 
 :::
 
+## Errors reported as they happen
+
+Your editor can also ask to be told about every diagnostic PHP raises — warnings,
+notices, deprecations and errors — as they occur. Each one arrives with its
+message, its file and its line, and the script keeps running.
+
+This is the middle ground between the two extremes. Ignoring a warning means
+finding it later in a log, if at all; breaking on one, with an
+[exception breakpoint](./breakpoints.md#exception-breakpoints) on `Warning`, stops
+you dead every time it fires. A notification just tells you, in order, alongside
+everything else the request did.
+
+Like output capture, this is an editor setting negotiated when the session starts,
+and it is off unless your editor asks for it. It is worth turning on and leaving
+on: a deprecation you would never have gone looking for is exactly the kind of
+thing that turns up in that panel.
+
 ## The debugger's own log
 
 The debug log is for the times the debugger is the problem: the session never
