@@ -4,11 +4,14 @@ title: Logging
 
 Two different things get called logging here, and they solve different problems.
 
-One is your own output — the `echo` and `var_dump()` you scatter about — arriving
-in your editor instead of the response body. The other is the debugger's own log,
-which is what you reach for when the debugger itself is not behaving.
+One is what your request produces as it runs — the `echo` and `var_dump()` you
+scatter about, and the warnings PHP raises along the way — arriving in your editor
+instead of the response body. The other is the debugger's own log, which is what
+you reach for when the debugger itself is not behaving.
 
-## Your script's output in the editor
+## What your request produces
+
+### Your script's output
 
 Your editor can ask for a copy of everything the script writes to standard output.
 `echo`, `print_r()`, `var_dump()`, whatever a framework writes — all of it appears
@@ -45,6 +48,23 @@ If something is missing that you are certain was printed, this is usually why. L
 in the PHP error log for it.
 
 :::
+
+### Errors, warnings and notices
+
+Separately from that output, your editor can ask to be told about every diagnostic
+PHP raises — errors, warnings, notices and deprecations — as they occur. Each one
+arrives with its message, its file and its line, and the script keeps running.
+
+This is the middle ground between the two extremes. Ignoring a warning means
+finding it later in a log, if at all; breaking on one, with an
+[exception breakpoint](./breakpoints.md#exception-breakpoints) on `Warning`, stops
+you dead every time it fires. A notification just tells you, in order, alongside
+everything else the request did.
+
+This is a separate editor setting from output capture, negotiated the same way and
+likewise off unless your editor asks for it. It is worth turning on and leaving
+on: a deprecation you would never have gone looking for is exactly the kind of
+thing that turns up in that panel.
 
 ## The debugger's own log
 
