@@ -52,7 +52,7 @@ in the PHP error log for it.
 ### Errors, warnings and notices
 
 Separately from that output, your editor can ask to be told about every diagnostic
-PHP raises — warnings, notices, deprecations and errors — as they occur. Each one
+PHP raises — errors, warnings, notices and deprecations — as they occur. Each one
 arrives with its message, its file and its line, and the script keeps running.
 
 This is the middle ground between the two extremes. Ignoring a warning means
