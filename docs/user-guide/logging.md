@@ -49,7 +49,7 @@ in the PHP error log for it.
 
 :::
 
-### Warnings and notices
+### Errors, warnings and notices
 
 Separately from that output, your editor can ask to be told about every diagnostic
 PHP raises — warnings, notices, deprecations and errors — as they occur. Each one
