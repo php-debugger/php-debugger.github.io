@@ -37,7 +37,7 @@ const sidebars = {
         'user-guide/breakpoints',
         'user-guide/step-debugging',
         'user-guide/inspect-variables',
-        'user-guide/watch-expressions',
+        'user-guide/watches-and-edits',
         'user-guide/logging',
         'user-guide/error-handling',
       ],
