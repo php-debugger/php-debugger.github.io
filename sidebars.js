@@ -39,6 +39,7 @@ const sidebars = {
         'user-guide/inspect-variables',
         'user-guide/watches-and-edits',
         'user-guide/logging',
+        'user-guide/troubleshooting',
       ],
     },
     {
@@ -70,7 +71,6 @@ const sidebars = {
       items: [
         'advanced/performance',
         'advanced/remote-debugging',
-        'advanced/troubleshooting',
       ],
     },
   ],
