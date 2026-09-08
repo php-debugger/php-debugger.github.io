@@ -47,9 +47,9 @@ const sidebars = {
       label: 'Reference',
       collapsed: false,
       items: [
+        'reference/settings',
         'reference/cli-options',
         'reference/environment-variables',
-        'reference/configuration-file',
         'reference/debug-protocol',
       ],
     },
