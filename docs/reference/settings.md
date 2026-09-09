@@ -4,10 +4,6 @@ title: Settings
 
 Every setting PHP Debugger supports, in alphabetical order.
 
-All of them can also be written with an `xdebug.` prefix instead of
-`php_debugger.` — the two names share one value. Where both are set explicitly,
-`php_debugger.` wins.
-
 Each setting says where it can be set:
 
 - **Anywhere** — `php.ini`, a `conf.d` file, per-directory config, or at runtime
@@ -307,3 +303,13 @@ on what you can reach. Also overridable by your editor.
 ```ini
 php_debugger.var_display_max_depth=5
 ```
+
+:::info[The `xdebug.` prefix also works]
+
+Every setting on this page can also be written with an `xdebug.` prefix instead of
+`php_debugger.`. The two names share a single value, so either spelling has the
+same effect, and where both are set explicitly `php_debugger.` wins.
+
+This is what lets an existing configuration carry on working untouched.
+
+:::
