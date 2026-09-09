@@ -212,6 +212,31 @@ is where to look first if breakpoints in a container are being ignored.
 php_debugger.path_mapping=1
 ```
 
+## `php_debugger.report_xdebug_module`
+
+| Type | Default | Set in |
+| --- | --- | --- |
+| Boolean | `0` | `php.ini` only |
+
+Whether `extension_loaded("xdebug")` reports `true`.
+
+It is off by default on purpose. Some tools, Composer and PHPUnit among them, use
+that check to detect Xdebug and then restart PHP with the extension disabled — a
+restart that cannot work here, because there is no separate Zend extension for them
+to unload. Reporting the module would leave those tools trying to remove something
+that is not there.
+
+Turn it on only for a tool that gates a feature on the check rather than trying to
+disable anything.
+
+```ini
+php_debugger.report_xdebug_module=1
+```
+
+Nothing else depends on this setting. The `xdebug.` prefixed settings, the
+`XDEBUG_*` environment variables and triggers, and the `xdebug_*()` functions all
+work either way.
+
 ## `php_debugger.start_upon_error`
 
 | Type | Default | Set in |
