@@ -14,10 +14,9 @@ failing.
 php_debugger_break(): bool
 ```
 
-| | |
+| Parameters | Returns |
 | --- | --- |
-| Parameters | None |
-| Returns | `true` if execution stopped, `false` if it could not |
+| None | `true` if execution stopped, `false` if it could not |
 
 Stops execution at this line and hands the session to your editor, exactly as
 though you had set a [breakpoint](../user-guide/breakpoints.md) on it.
@@ -49,10 +48,9 @@ set from your editor whenever one will do.
 php_debugger_connect_to_client(): bool
 ```
 
-| | |
+| Parameters | Returns |
 | --- | --- |
-| Parameters | None |
-| Returns | `true` if the connection was set up, `false` otherwise |
+| None | `true` if the connection was set up, `false` otherwise |
 
 Connects to your editor part-way through a request, for the case where the session
 did not start at the beginning of it.
@@ -78,10 +76,9 @@ until something else — a breakpoint, or a later `php_debugger_break()` — pau
 php_debugger_info(?string $category = null): mixed
 ```
 
-| | |
+| Parameters | Returns |
 | --- | --- |
-| `$category` | `null` for the full report, or `"mode"` or `"extension-flags"` |
-| Returns | `null` for the full report, which it prints; an array for a category |
+| `$category` — omit for the full report, or pass `"mode"` or `"extension-flags"` | `null` for the full report, which it prints; an array for a category |
 
 Reports how the debugger is configured and what it is currently doing.
 
@@ -114,10 +111,9 @@ features this build was compiled with.
 php_debugger_is_debugger_active(): bool
 ```
 
-| | |
+| Parameters | Returns |
 | --- | --- |
-| Parameters | None |
-| Returns | `true` if a debugging session is connected right now |
+| None | `true` if a debugging session is connected right now |
 
 Reports whether a client is connected. It has no side effects and never raises
 anything, so it is the safe way to ask before doing something that only makes sense
@@ -139,10 +135,9 @@ watching things expire.
 php_debugger_notify(mixed $data): bool
 ```
 
-| | |
+| Parameters | Returns |
 | --- | --- |
-| `$data` | Any value. Sent to your editor as a structured value, not a string |
-| Returns | `true` if the notification was sent, `false` if nothing is connected |
+| `$data` — any value, sent structured rather than flattened to a string | `true` if the notification was sent, `false` if nothing is connected |
 
 Sends a value to your editor's notification panel, along with the file and line it
 came from, without stopping execution.
