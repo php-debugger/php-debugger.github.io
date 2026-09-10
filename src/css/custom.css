@@ -197,3 +197,12 @@ article a {
 .theme-admonition-info [class*='admonitionIcon'] svg {
   fill: var(--ifm-color-primary);
 }
+
+/* Some reference tables are two-column label/value pairs with no meaningful
+   heading. Markdown has no way to write a table without a header row, so those
+   are written with blank cells -- which still render as an empty band above the
+   table. Hide the header when every cell in it is blank; tables with real
+   headings are untouched. */
+.markdown table thead:not(:has(th:not(:empty))) {
+  display: none;
+}
