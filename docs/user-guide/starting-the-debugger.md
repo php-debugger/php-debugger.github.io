@@ -73,8 +73,8 @@ The debugger looks for a trigger under any of these names, in this order:
 3. `XDEBUG_SESSION`
 4. `PHP_DEBUGGER_SESSION`
 
-Each is looked for in the environment first, then `$_GET`, then `$_POST`, then
-`$_COOKIE`. So both of these start a session:
+Each is looked for in `$_GET`, then `$_POST`, then `$_COOKIE`, and last of all in
+the environment. So both of these start a session:
 
 ```bash
 PHP_DEBUGGER_TRIGGER=1 php your-script.php

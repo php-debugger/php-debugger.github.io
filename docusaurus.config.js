@@ -123,7 +123,7 @@ const config = {
             position: 'left',
           },
           {
-            to: '/reference/cli-options',
+            to: '/reference/settings',
             label: 'Reference',
             position: 'left',
           },

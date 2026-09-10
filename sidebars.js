@@ -49,7 +49,6 @@ const sidebars = {
       items: [
         'reference/settings',
         'reference/functions',
-        'reference/cli-options',
         'reference/environment-variables',
         'reference/debug-protocol',
       ],
