@@ -17,7 +17,7 @@ const keyFeatures = [
   'Logging and error handling',
 ];
 
-const ides = ['PhpStorm', 'VS Code', 'Neovim'];
+const ides = ['PhpStorm', 'VS Code'];
 
 function Card({icon, title, children, linkTo, linkLabel}) {
   return (

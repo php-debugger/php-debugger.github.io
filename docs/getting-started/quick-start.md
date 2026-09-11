@@ -51,7 +51,8 @@ the connection settings.
 Start your editor listening on port `9003`, set a breakpoint, and run your code.
 The debugger connects, pauses, and hands you the session.
 
-See [IDE Support](../integrations/ide-support.md) for PhpStorm, VS Code and Neovim.
+See [IDE Support](../integrations/ide-support.md) for PhpStorm, VS Code and other
+IDEs.
 
 ## Next steps
 
