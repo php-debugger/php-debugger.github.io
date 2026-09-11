@@ -21,9 +21,7 @@ under a friendlier name.
 
 The protocol is documented in full at
 [xdebug.org/docs/dbgp](https://xdebug.org/docs/dbgp) — every command, its arguments
-and the shape of its response. There are also
-[protocol extensions](https://xdebug.org/docs/dbgp-extensions) beyond the base
-specification, which this debugger implements as well.
+and the shape of its response.
 
 You do not need any of it to use the debugger. It is worth reading if you are
 building a client, debugging a client, or trying to work out why your editor and the
