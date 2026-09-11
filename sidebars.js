@@ -61,7 +61,6 @@ const sidebars = {
         'integrations/ide-support',
         'integrations/phpstorm',
         'integrations/vs-code',
-        'integrations/neovim',
       ],
     },
     {

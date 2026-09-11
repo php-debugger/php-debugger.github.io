@@ -46,7 +46,7 @@ const benefits = [
   },
   {
     title: 'Works with your editor',
-    text: 'Full DBGp protocol support means any IDE or tool that speaks it just works — PhpStorm, VS Code, Neovim, and anything else in your setup.',
+    text: 'Full DBGp protocol support means any IDE or tool that speaks it just works — PhpStorm, VS Code, and anything else in your setup.',
     icon: (
       <svg {...iconProps}>
         <rect x="3" y="4" width="18" height="13" rx="2" />
