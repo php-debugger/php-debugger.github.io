@@ -40,10 +40,12 @@ If you change it there, change
 [`php_debugger.client_port`](../reference/settings.md#php_debuggerclient_port) to
 match.
 
-When your code runs in a container, the other half of the setup is path mapping —
-telling PhpStorm which local directory corresponds to the path the debugger
-reports. That is configured under **Settings | PHP | Servers**, and it is the usual
-reason breakpoints in a container are ignored.
+Whenever the paths the debugger reports are not the paths on your own machine, the
+other half of the setup is path mapping — telling PhpStorm which local directory
+corresponds to which remote one. A container is the common case, but so is a VM, a
+remote host, or any mount whose root differs from your project. That is configured
+under **Settings | PHP | Servers**, and it is the usual reason breakpoints are
+ignored.
 
 Over HTTP that is all you need — PhpStorm matches the connection to a server entry
 by the URL that was requested. On the command line there is no URL to match on, so
