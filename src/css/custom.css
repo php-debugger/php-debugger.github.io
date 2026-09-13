@@ -205,8 +205,13 @@ article a {
 .markdown a[href^='http']::after {
   content: '\2197';
   display: inline-block;
-  margin-left: 0.15em;
-  font-size: 0.85em;
-  line-height: 1;
-  vertical-align: baseline;
+  margin-left: 0.25em;
+  padding: 0 0.25em;
+  border: 1px solid currentColor;
+  border-radius: 0.25em;
+  font-size: 0.7em;
+  font-weight: 700;
+  line-height: 1.5;
+  vertical-align: 0.15em;
+  opacity: 0.75;
 }

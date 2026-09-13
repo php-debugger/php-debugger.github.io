@@ -28,7 +28,7 @@ PHP scripts**. With it on, PhpStorm stops at the first line of every request it
 receives. That is occasionally useful and usually not what you want, especially
 here, where every request arrives.
 
-[Zero-configuration debugging](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html)
+**JetBrains docs:** [Zero-configuration debugging](https://www.jetbrains.com/help/phpstorm/zero-configuration-debugging.html)
 · [Start a PHP debugging session](https://www.jetbrains.com/help/phpstorm/php-debugging-session.html)
 
 ## Connecting to a client
@@ -59,7 +59,7 @@ session connects and the breakpoints are ignored. The
 [Docker](../getting-started/docker.mdx) page sets it alongside the debugger's own
 settings.
 
-[Configure Xdebug](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html)
+**JetBrains docs:** [Configure Xdebug](https://www.jetbrains.com/help/phpstorm/configuring-xdebug.html)
 
 ## Breakpoints
 
@@ -73,7 +73,7 @@ PhpStorm's **Mute Breakpoints** button disables them all at once without deletin
 them. It is handy mid-session, but muted breakpoints are still breakpoints as far as
 the debugger is concerned — for the overhead to go away they have to be removed.
 
-[Breakpoints](https://www.jetbrains.com/help/phpstorm/using-breakpoints.html)
+**JetBrains docs:** [Breakpoints](https://www.jetbrains.com/help/phpstorm/using-breakpoints.html)
 
 ## Step debugging
 
@@ -89,7 +89,7 @@ which can skip library scripts and any scripts you list, and **PHP | Debug | Ste
 Filters**, which can skip magic methods, constructors and named methods. **Force
 Step Into** ignores both for a single step.
 
-[Step through the program](https://www.jetbrains.com/help/phpstorm/stepping-through-the-program.html)
+**JetBrains docs:** [Step through the program](https://www.jetbrains.com/help/phpstorm/stepping-through-the-program.html)
 
 ## Inspect variables
 
@@ -102,7 +102,7 @@ the part worth getting into the habit of using.
 PhpStorm also shows values inline, greyed out beside the code itself, which often
 saves going to the panel at all.
 
-[Examine a suspended program](https://www.jetbrains.com/help/phpstorm/examining-suspended-program.html)
+**JetBrains docs:** [Examine a suspended program](https://www.jetbrains.com/help/phpstorm/examining-suspended-program.html)
 
 ## Watches and edits
 
@@ -115,7 +115,7 @@ warnings about side effects apply exactly as written.
 To change a value, double-click it in the variables pane, or use **Set Value** from
 its context menu.
 
-[Evaluate expressions](https://www.jetbrains.com/help/phpstorm/evaluating-expressions.html)
+**JetBrains docs:** [Evaluate expressions](https://www.jetbrains.com/help/phpstorm/evaluating-expressions.html)
 
 ## Logging
 
@@ -125,7 +125,7 @@ The Console tab of the Debug tool window carries your script's output, and PHP's
 warnings and notices appear there as the request produces them. Nothing needs
 enabling on our side; PhpStorm asks for both when the session opens.
 
-[Debug tool window: Console](https://www.jetbrains.com/help/phpstorm/debug-tool-window-console.html)
+**JetBrains docs:** [Debug tool window: Console](https://www.jetbrains.com/help/phpstorm/debug-tool-window-console.html)
 
 ## Troubleshooting
 
@@ -137,4 +137,4 @@ code runs. Our [troubleshooting page](../user-guide/troubleshooting.md) covers t
 debugger side, and the debug log at the default level will tell you whether a
 connection was attempted and where to.
 
-[Troubleshooting PHP debugging](https://www.jetbrains.com/help/phpstorm/troubleshooting-php-debugging.html)
+**JetBrains docs:** [Troubleshooting PHP debugging](https://www.jetbrains.com/help/phpstorm/troubleshooting-php-debugging.html)
