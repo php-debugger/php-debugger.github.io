@@ -197,3 +197,21 @@ article a {
 .theme-admonition-info [class*='admonitionIcon'] svg {
   fill: var(--ifm-color-primary);
 }
+
+/* Mark links that leave the site. Internal links are written relative, so the
+   protocol prefix is a reliable test. The marker sits inside the link so it
+   inherits colour and underline, and is hidden from assistive technology --
+   screen readers announce the destination from the href already. */
+.markdown a[href^='http']::after {
+  content: '\2197';
+  display: inline-block;
+  margin-left: 0.25em;
+  padding: 0 0.25em;
+  border: 1px solid currentColor;
+  border-radius: 0.25em;
+  font-size: 0.7em;
+  font-weight: 700;
+  line-height: 1.5;
+  vertical-align: 0.15em;
+  opacity: 0.75;
+}
