@@ -2,19 +2,19 @@ import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
 import styles from './styles.module.css';
 
-const quickStartSnippet = `# php.ini
-zend_extension=php_debugger
+const quickStartSnippet = `# Install
+curl -fsSL https://github.com/php-debugger/installer/releases/latest/download/install.sh | sh
 
-# Run your script
-XDEBUG_TRIGGER=1 php your-script.php`;
+# Debug
+php your-script.php`;
 
 const keyFeatures = [
-  'Interactive CLI debugger',
-  'Breakpoints & conditional breakpoints',
-  'Step over, into, and out',
-  'Inspect variables and expressions',
-  'Exception handling',
-  'Logging and error handling',
+  'Always on — no trigger to set',
+  'Near-zero overhead when idle',
+  'Line, conditional and exception breakpoints',
+  'Step into, over and out',
+  'Inspect variables across the call stack',
+  'Watch expressions and live value edits',
 ];
 
 const ides = ['PhpStorm', 'VS Code'];
@@ -42,8 +42,8 @@ export default function HomeCards() {
         title="Quick Start"
         linkTo="/getting-started/quick-start"
         linkLabel="View quick start guide">
-        <p>Get up and running in seconds.</p>
-        <CodeBlock language="ini">{quickStartSnippet}</CodeBlock>
+        <p>Install it. There is nothing to configure.</p>
+        <CodeBlock language="bash">{quickStartSnippet}</CodeBlock>
       </Card>
       <Card
         icon={
