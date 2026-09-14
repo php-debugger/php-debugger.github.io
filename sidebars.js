@@ -63,15 +63,6 @@ const sidebars = {
         'integrations/vs-code',
       ],
     },
-    {
-      type: 'category',
-      label: 'Advanced',
-      collapsed: false,
-      items: [
-        'advanced/performance',
-        'advanced/remote-debugging',
-      ],
-    },
   ],
 };
 
