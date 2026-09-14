@@ -1,12 +1,35 @@
+import {useEffect, useState} from 'react';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
+import {PLATFORMS, detectPlatform} from '@site/src/lib/installer';
 import styles from './styles.module.css';
 
-const quickStartSnippet = `# Install
-curl -fsSL https://github.com/php-debugger/installer/releases/latest/download/install.sh | sh
+function quickStartSnippet(command) {
+  return `# Install\n${command}\n\n# Debug\nphp your-script.php`;
+}
 
-# Debug
-php your-script.php`;
+/* Shows the command for the visitor's own OS. The page is prerendered without
+   knowing it, so this starts on the Unix command and corrects itself after
+   mounting -- detecting in an effect rather than during render keeps the first
+   client render identical to the server's, which is what hydration compares. */
+function QuickStartSnippet() {
+  const [platform, setPlatform] = useState('macos');
+
+  useEffect(() => {
+    const detected = detectPlatform();
+    if (detected) {
+      setPlatform(detected);
+    }
+  }, []);
+
+  const active = PLATFORMS.find((p) => p.id === platform) ?? PLATFORMS[0];
+
+  return (
+    <CodeBlock language={active.language}>
+      {quickStartSnippet(active.command)}
+    </CodeBlock>
+  );
+}
 
 const keyFeatures = [
   'Always on — no trigger to set',
@@ -43,7 +66,8 @@ export default function HomeCards() {
         linkTo="/getting-started/quick-start"
         linkLabel="View quick start guide">
         <p>Install it. There is nothing to configure.</p>
-        <CodeBlock language="bash">{quickStartSnippet}</CodeBlock>
+        <QuickStartSnippet />
+        <p>Start your editor listening, set a breakpoint, run your code.</p>
       </Card>
       <Card
         icon={
