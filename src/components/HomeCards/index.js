@@ -1,23 +1,46 @@
+import {useEffect, useState} from 'react';
 import Link from '@docusaurus/Link';
 import CodeBlock from '@theme/CodeBlock';
+import {PLATFORMS, detectPlatform} from '@site/src/lib/installer';
 import styles from './styles.module.css';
 
-const quickStartSnippet = `# php.ini
-zend_extension=php_debugger
+function quickStartSnippet(command) {
+  return `# Install\n${command}\n\n# Debug\nphp your-script.php`;
+}
 
-# Run your script
-XDEBUG_TRIGGER=1 php your-script.php`;
+/* Shows the command for the visitor's own OS. The page is prerendered without
+   knowing it, so this starts on the Unix command and corrects itself after
+   mounting -- detecting in an effect rather than during render keeps the first
+   client render identical to the server's, which is what hydration compares. */
+function QuickStartSnippet() {
+  const [platform, setPlatform] = useState('macos');
+
+  useEffect(() => {
+    const detected = detectPlatform();
+    if (detected) {
+      setPlatform(detected);
+    }
+  }, []);
+
+  const active = PLATFORMS.find((p) => p.id === platform) ?? PLATFORMS[0];
+
+  return (
+    <CodeBlock language={active.language}>
+      {quickStartSnippet(active.command)}
+    </CodeBlock>
+  );
+}
 
 const keyFeatures = [
-  'Interactive CLI debugger',
-  'Breakpoints & conditional breakpoints',
-  'Step over, into, and out',
-  'Inspect variables and expressions',
-  'Exception handling',
-  'Logging and error handling',
+  'Always on — no trigger to set',
+  'Near-zero overhead when idle',
+  'Line, conditional and exception breakpoints',
+  'Step into, over and out',
+  'Inspect variables across the call stack',
+  'Watch expressions and live value edits',
 ];
 
-const ides = ['PhpStorm', 'VS Code'];
+const ides = ['PhpStorm', 'VS Code', 'Any other editor with PHP debugging'];
 
 function Card({icon, title, children, linkTo, linkLabel}) {
   return (
@@ -42,8 +65,9 @@ export default function HomeCards() {
         title="Quick Start"
         linkTo="/getting-started/quick-start"
         linkLabel="View quick start guide">
-        <p>Get up and running in seconds.</p>
-        <CodeBlock language="ini">{quickStartSnippet}</CodeBlock>
+        <p>Install it. There is nothing to configure.</p>
+        <QuickStartSnippet />
+        <p>Start your editor listening, set a breakpoint, run your code.</p>
       </Card>
       <Card
         icon={

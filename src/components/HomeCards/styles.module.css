@@ -97,3 +97,10 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* The installer URL is longer than the card is wide. Wrapping keeps the whole
+   command visible and copyable rather than clipping it at the card edge. */
+.cardBody :global(.theme-code-block) code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
