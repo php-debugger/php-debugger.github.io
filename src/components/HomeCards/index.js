@@ -1,35 +1,12 @@
-import {useEffect, useState} from 'react';
 import Link from '@docusaurus/Link';
-import CodeBlock from '@theme/CodeBlock';
-import {PLATFORMS, detectPlatform} from '@site/src/lib/installer';
 import styles from './styles.module.css';
 
-function quickStartSnippet(command) {
-  return `# Install\n${command}\n\n# Debug\nphp your-script.php`;
-}
-
-/* Shows the command for the visitor's own OS. The page is prerendered without
-   knowing it, so this starts on the Unix command and corrects itself after
-   mounting -- detecting in an effect rather than during render keeps the first
-   client render identical to the server's, which is what hydration compares. */
-function QuickStartSnippet() {
-  const [platform, setPlatform] = useState('macos');
-
-  useEffect(() => {
-    const detected = detectPlatform();
-    if (detected) {
-      setPlatform(detected);
-    }
-  }, []);
-
-  const active = PLATFORMS.find((p) => p.id === platform) ?? PLATFORMS[0];
-
-  return (
-    <CodeBlock language={active.language}>
-      {quickStartSnippet(active.command)}
-    </CodeBlock>
-  );
-}
+const quickStartSteps = [
+  'Install it with one command',
+  'Start your editor listening',
+  'Set a breakpoint',
+  'Run your code as usual',
+];
 
 const keyFeatures = [
   'Always on — no trigger to set',
@@ -65,9 +42,15 @@ export default function HomeCards() {
         title="Quick Start"
         linkTo="/getting-started/quick-start"
         linkLabel="View quick start guide">
-        <p>Install it. There is nothing to configure.</p>
-        <QuickStartSnippet />
-        <p>Start your editor listening, set a breakpoint, run your code.</p>
+        <p>Four steps, and nothing to configure.</p>
+        <ol className={styles.stepList}>
+          {quickStartSteps.map((step, i) => (
+            <li key={step}>
+              <span className={styles.step}>{i + 1}</span>
+              {step}
+            </li>
+          ))}
+        </ol>
       </Card>
       <Card
         icon={

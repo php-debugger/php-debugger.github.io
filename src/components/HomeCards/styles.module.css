@@ -98,9 +98,33 @@
   }
 }
 
-/* The installer URL is longer than the card is wide. Wrapping keeps the whole
-   command visible and copyable rather than clipping it at the card edge. */
-.cardBody :global(.theme-code-block) code {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+/* Numbered steps in the Quick Start card, mirroring the check badges beside the
+   Key Features list so the two cards read as a pair. */
+.stepList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stepList li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--ifm-color-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  position: relative;
+  top: 0.15rem;
 }
