@@ -40,7 +40,7 @@ const keyFeatures = [
   'Watch expressions and live value edits',
 ];
 
-const ides = ['PhpStorm', 'VS Code'];
+const ides = ['PhpStorm', 'VS Code', 'Any other editor with PHP debugging'];
 
 function Card({icon, title, children, linkTo, linkLabel}) {
   return (
