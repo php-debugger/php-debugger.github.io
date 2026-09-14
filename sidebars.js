@@ -38,6 +38,7 @@ const sidebars = {
         'user-guide/step-debugging',
         'user-guide/inspect-variables',
         'user-guide/watches-and-edits',
+        'user-guide/stop-using-dd',
         'user-guide/logging',
         'user-guide/troubleshooting',
       ],
