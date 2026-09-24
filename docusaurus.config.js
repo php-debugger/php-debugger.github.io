@@ -52,7 +52,7 @@ const config = {
     v4: true,
   },
 
-  url: 'https://php-debugger.github.io',
+  url: 'https://php-debugger.dev',
   // Overridable so PR preview builds can be served from a sub-path
   baseUrl: process.env.BASE_URL || '/',
 
