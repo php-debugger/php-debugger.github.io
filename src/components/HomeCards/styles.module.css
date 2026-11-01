@@ -26,12 +26,6 @@
   color: var(--ifm-color-primary);
 }
 
-.promptIcon {
-  font-family: var(--ifm-font-family-monospace);
-  font-weight: 700;
-  font-size: 1.1rem;
-}
-
 .cardTitle {
   font-size: 1.15rem;
   margin: 0;

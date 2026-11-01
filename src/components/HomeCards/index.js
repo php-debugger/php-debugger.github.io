@@ -40,7 +40,22 @@ export default function HomeCards() {
   return (
     <section className={styles.cards}>
       <Card
-        icon={<span className={styles.promptIcon}>&gt;_</span>}
+        icon={
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round">
+            <path d="M12 3v3" />
+            <rect x="4" y="6" width="16" height="12" rx="3" />
+            <path d="M9 11v1M15 11v1M9.5 15h5" />
+            <path d="M2 11v2M22 11v2" />
+          </svg>
+        }
         title="DBGP Client"
         linkTo="/agentic-debugging/dbgp-client"
         linkLabel="Debug with your agent">

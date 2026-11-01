@@ -19,7 +19,7 @@ export default function HomeHero() {
           Agentic zero-overhead debugging for <span className={styles.accent}>PHP</span>
         </h1>
         <p className={styles.tagline}>
-          A lightweight, powerful debugger that doesn&apos;t slow you down, and that your AI agents can drive too.
+          A lightweight, powerful debugger that doesn&apos;t slow you down. Built for you and your AI agents.
         </p>
         <div className={styles.buttons}>
           <Link className={styles.primaryButton} to="/getting-started/installation">
