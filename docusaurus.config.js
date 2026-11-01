@@ -45,7 +45,7 @@ async function latestDebuggerVersion() {
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'PHP Debugger',
-  tagline: 'Zero-overhead debugging for PHP',
+  tagline: 'Agentic zero-overhead debugging for PHP',
   favicon: 'img/favicon.svg',
 
   future: {

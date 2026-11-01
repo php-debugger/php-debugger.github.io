@@ -1,11 +1,13 @@
 import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
-const quickStartSteps = [
-  'Install it with one command',
-  'Start your editor listening',
-  'Set a breakpoint',
-  'Run your code as usual',
+const dbgpClientFeatures = [
+  'MCP server for Claude Code and others',
+  'Breakpoints, stepping, stack and variables',
+  'Sees script output and PHP warnings',
+  'Local, container or remote PHP',
+  'Optional read-only mode',
+  'Also a terminal debugger, no IDE needed',
 ];
 
 const keyFeatures = [
@@ -39,18 +41,18 @@ export default function HomeCards() {
     <section className={styles.cards}>
       <Card
         icon={<span className={styles.promptIcon}>&gt;_</span>}
-        title="Quick Start"
-        linkTo="/getting-started/quick-start"
-        linkLabel="View quick start guide">
-        <p>Four steps, and nothing to configure.</p>
-        <ol className={styles.stepList}>
-          {quickStartSteps.map((step, i) => (
-            <li key={step}>
-              <span className={styles.step}>{i + 1}</span>
-              {step}
+        title="DBGP Client"
+        linkTo="/agentic-debugging/dbgp-client"
+        linkLabel="Debug with your agent">
+        <p>Let AI agents debug PHP the way you would.</p>
+        <ul className={styles.checkList}>
+          {dbgpClientFeatures.map((feature) => (
+            <li key={feature}>
+              <span className={styles.check}>&#10003;</span>
+              {feature}
             </li>
           ))}
-        </ol>
+        </ul>
       </Card>
       <Card
         icon={
