@@ -177,7 +177,7 @@ Add these after `dbgp mcp` in the command your agent runs:
 | `-php-port PORT` | The port to listen on for PHP. Defaults to `9003`. |
 | `-idekey KEY` | Accepts only sessions with this IDE key, and turns away any other PHP that connects. |
 | `-listen` | Listens for PHP from the start, instead of waiting for the agent to ask. |
-| `-mcp-port PORT` | With `dbgp mcp start`: the port agents reach the [background server](#sharing-one-dbgp-between-agents) on. Defaults to `9004`. |
+| `-mcp-port PORT` | The port agents connect to over MCP. Defaults to `9004`. |
 
 `dbgp mcp -h` lists them all.
 
@@ -197,7 +197,7 @@ claude mcp add dbgp -- dbgp mcp -no-eval
 
 This limits what the agent can *do*, not what it can *see*: it still reads every
 variable the script has, passwords and API keys included. And PHP may still run some
-code reading values: reading an object property that does not exist calls the
+code when reading values: reading an object property that does not exist calls the
 object's `__get()` method, if it has one.
 
 :::
