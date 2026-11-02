@@ -57,9 +57,9 @@ run. [Options](#options) go after `mcp`, for example `dbgp mcp -no-eval`.
 
 ## Make sure PHP can reach dbgp
 
-When a script or request starts, PHP Debugger connects to the address in
-[`php_debugger.client_host`](../user-guide/connecting-to-a-client.md) on the port in
-`php_debugger.client_port`. They default to `localhost` and `9003`, and dbgp listens
+When a script or request starts, PHP Debugger
+[connects](../user-guide/connecting-to-a-client.md) to the address in
+`php_debugger.client_host` on the port in `php_debugger.client_port`. They default to `localhost` and `9003`, and dbgp listens
 on port `9003` by default. So when PHP runs on the same machine as your agent,
 there is nothing to set up.
 
@@ -172,11 +172,12 @@ Add these after `dbgp mcp` in the command your agent runs:
 
 | Option | What it does |
 | --- | --- |
-| `-no-eval` | Turns off everything that runs PHP code the agent writes. See [Look, don't touch](#look-dont-touch). |
+| `-no-eval` | Turns off everything that runs PHP code written by the agent. See [Look, don't touch](#look-dont-touch). |
 | `-map LOCAL=REMOTE` | Maps a directory on this machine to where PHP sees it. Repeat it for several mappings. |
 | `-php-port PORT` | The port to listen on for PHP. Defaults to `9003`. |
 | `-idekey KEY` | Accepts only sessions with this IDE key, and turns away any other PHP that connects. |
 | `-listen` | Listens for PHP from the start, instead of waiting for the agent to ask. |
+| `-mcp-port PORT` | With `dbgp mcp start`: the port agents reach the [background server](#sharing-one-dbgp-between-agents) on. Defaults to `9004`. |
 
 `dbgp mcp -h` lists them all.
 
@@ -195,8 +196,8 @@ claude mcp add dbgp -- dbgp mcp -no-eval
 :::warning[It can still see everything]
 
 This limits what the agent can *do*, not what it can *see*: it still reads every
-variable the script has, passwords and API keys included. And PHP still runs some
-code when it is read: reading an object property that does not exist calls the
+variable the script has, passwords and API keys included. And PHP may still run some
+code reading values: reading an object property that does not exist calls the
 object's `__get()` method, if it has one.
 
 :::
@@ -221,7 +222,7 @@ own, and use the options it was started with. That gives you:
   mappings. Each agent has its own current session, and dbgp keeps listening until
   every agent that asked it to listen has stopped.
 
-Agents reach it on port `9004`, on this machine only. Change the port with
+Agents reach it on port `9004` by default, on this machine only. Change the port with
 `-mcp-port` when you start it. Only you can use it: agents connect with a token
 kept in a file that other users on the machine cannot read.
 
