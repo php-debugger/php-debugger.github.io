@@ -1,0 +1,164 @@
+---
+title: Installation
+description: Install DBGP Client on Linux, macOS or Windows, and check that PHP is ready to be debugged.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import ConsoleSample from '@site/src/components/ConsoleSample';
+
+DBGP Client is a single program, `dbgp`, with nothing to install alongside it. The
+install script downloads the right build for your system and puts it on your
+`PATH`.
+
+:::info[Install it where your agent runs]
+
+dbgp runs on the machine where your agent, or your terminal, runs. If PHP runs in
+a container or on a server, you do not need to install dbgp there: PHP connects
+to it over the network.
+
+:::
+
+## Install it
+
+<Tabs groupId="os">
+<TabItem value="unix" label="macOS / Linux" default>
+
+```bash
+curl -fsSL https://github.com/php-debugger/dbgp-client/releases/latest/download/install.sh | sh
+```
+
+This installs `dbgp` to `/usr/local/bin`. If you cannot write there, the script
+uses `sudo` and asks for your password.
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+Run this in PowerShell as administrator:
+
+```powershell
+powershell -c "irm https://github.com/php-debugger/dbgp-client/releases/latest/download/install.ps1 | iex"
+```
+
+This installs `dbgp` to `%ProgramFiles%\dbgp` and adds that folder to the system
+`PATH`. Open a new terminal afterwards so it picks up the change.
+
+</TabItem>
+</Tabs>
+
+### Choosing where and what to install
+
+Two environment variables change what the script does:
+
+| Variable | What it does |
+| --- | --- |
+| `INSTALL_DIR` | Installs to this directory instead. |
+| `VERSION` | Installs this release, such as `0.1.1`, instead of the latest one. |
+
+For example, to install into your home directory, where no administrator rights
+are needed:
+
+<Tabs groupId="os">
+<TabItem value="unix" label="macOS / Linux" default>
+
+```bash
+curl -fsSL https://github.com/php-debugger/dbgp-client/releases/latest/download/install.sh | INSTALL_DIR="$HOME/.local/bin" sh
+```
+
+If the directory is not on your `PATH`, the script prints the line to add to your
+shell's profile.
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+```powershell
+$env:INSTALL_DIR = "$env:LOCALAPPDATA\dbgp"
+powershell -c "irm https://github.com/php-debugger/dbgp-client/releases/latest/download/install.ps1 | iex"
+```
+
+With `INSTALL_DIR` set, the script adds the directory to your own `PATH` rather
+than the system one.
+
+</TabItem>
+</Tabs>
+
+### Other platforms
+
+Builds are published for Linux and macOS, on both `amd64` and `arm64`, and for
+Windows on `amd64`. On anything else, install it with Go 1.26 or later:
+
+```bash
+go install github.com/php-debugger/dbgp-client/cmd/dbgp@latest
+```
+
+### Downloading it yourself
+
+You can also download the archive for your system from the
+[Releases page](https://github.com/php-debugger/dbgp-client/releases) and put the
+`dbgp` binary anywhere on your `PATH`. Each release file has a build provenance
+attestation, which shows it was built by the project's own release workflow. To
+check a file you downloaded, run:
+
+```bash
+gh attestation verify dbgp-linux-amd64.tar.gz --repo php-debugger/dbgp-client
+```
+
+## Check that it works
+
+```bash
+dbgp -version
+```
+
+This prints `dbgp` followed by the version you installed.
+
+## Make sure PHP can be debugged
+
+dbgp debugs PHP through PHP Debugger, or through Xdebug, so PHP needs one of them.
+Run `php -v` and look for PHP Debugger in the output:
+
+<ConsoleSample>{`$ php -v
+PHP 8.4.23 (cli) (built: Jul  2 2026 20:39:24) (NTS)
+Copyright (c) The PHP Group
+Zend Engine v4.4.23, Copyright (c) Zend Technologies
+    with PHP Debugger v__VERSION__, Copyright (c) 2002-2026, by Derick Rethans`}</ConsoleSample>
+
+If it is not there, [install PHP Debugger](../getting-started/installation.mdx)
+first.
+
+## Updating
+
+Run the install command again to update to the latest release. Set `VERSION` to
+move to a particular one, including an older one.
+
+If you run dbgp's MCP server in the background, it keeps running the version it
+started with. Restart it to use the new one:
+
+```bash
+dbgp mcp stop && dbgp mcp start
+```
+
+On Windows, stop it with `dbgp mcp stop` before updating: a running `dbgp` cannot be
+replaced.
+
+## Uninstalling
+
+Stop the background MCP server if you started one, then delete the `dbgp` binary:
+
+<Tabs groupId="os">
+<TabItem value="unix" label="macOS / Linux" default>
+
+```bash
+dbgp mcp stop
+sudo rm /usr/local/bin/dbgp
+```
+
+</TabItem>
+<TabItem value="windows" label="Windows">
+
+Run `dbgp mcp stop`, delete the `%ProgramFiles%\dbgp` folder, and remove it from the
+system `PATH`.
+
+</TabItem>
+</Tabs>
+
+Remember to remove `dbgp` from your agent's MCP settings too.

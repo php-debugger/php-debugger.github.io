@@ -47,7 +47,7 @@ const sidebars = {
       type: 'category',
       label: 'Agentic debugging',
       collapsed: false,
-      items: ['agentic-debugging/dbgp-client'],
+      items: ['agentic-debugging/dbgp-client', 'agentic-debugging/installation'],
     },
     {
       type: 'category',
