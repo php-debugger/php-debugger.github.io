@@ -3,6 +3,8 @@ title: DBGP Client
 description: DBGP Client lets AI agents debug PHP with PHP Debugger, the way you would. It also works as a standalone debugger in your terminal.
 ---
 
+import DbgpDiagram from '@site/src/components/DbgpDiagram';
+
 [DBGP Client](https://github.com/php-debugger/dbgp-client) is a debugger client for
 PHP. Its `dbgp` command speaks [DBGp](../reference/debug-protocol.md), the same
 protocol your IDE uses to talk to PHP Debugger, and it can be used in two ways:
@@ -73,11 +75,9 @@ web request, so you only have to tell it what is wrong. For example:
 ## How it works
 
 dbgp sits between the agent and PHP. The agent talks to dbgp over MCP, and dbgp
-talks to PHP Debugger over DBGp, on port `9003` by default:
+talks to PHP Debugger over DBGp:
 
-```text
-AI agent  ──MCP──▶  dbgp  ◀──DBGp, port 9003──  PHP Debugger, in PHP
-```
+<DbgpDiagram />
 
 A typical debugging run goes like this:
 
@@ -94,7 +94,7 @@ A typical debugging run goes like this:
 Each script run or request that connects is a separate session, so the agent can
 debug several at a time, for example a web request and the queue job it sets off.
 
-## Security
+:::warning[Security]
 
 Like any debugger, dbgp trusts the PHP that connects to it and the agent that uses
 it:
@@ -107,3 +107,5 @@ it:
   connect to dbgp as if it were PHP, and show the agent made-up code and values. Make
   sure only your own PHP hosts and containers can reach it, and use an SSH tunnel or
   a VPN to debug PHP across a network you do not trust.
+
+:::
