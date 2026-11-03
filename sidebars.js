@@ -51,6 +51,7 @@ const sidebars = {
         'agentic-debugging/dbgp-client',
         'agentic-debugging/installation',
         'agentic-debugging/agents',
+        'agentic-debugging/cli',
       ],
     },
     {
