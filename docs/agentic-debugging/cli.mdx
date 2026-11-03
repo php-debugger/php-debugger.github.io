@@ -1,0 +1,285 @@
+---
+title: Debugging from the terminal
+description: Use DBGP Client as an interactive debugger in your terminal, to debug PHP scripts and web requests without an IDE.
+---
+
+`dbgp` on its own is an interactive debugger that runs in your terminal. It does
+everything you would do in an IDE: set breakpoints, step through the code, and look
+at the stack and the variables. You type commands at a prompt instead of clicking.
+
+That makes it handy wherever an IDE is not: on a server you reached over SSH,
+inside a container, or for a quick look at a script without opening a project.
+
+## Start it
+
+Run `dbgp`, optionally with a breakpoint or two:
+
+```bash
+dbgp -break src/Controller/HomeController.php:25
+```
+
+dbgp starts listening for PHP right away, on port `9003`, and waits for your
+commands. Then run your PHP code as usual, for example in another terminal:
+
+```bash
+php app.php
+```
+
+The script connects to dbgp and stops at its start, waiting for you. Web requests
+work the same way: load the page in your browser, or send the request with `curl`,
+and it connects too.
+
+As with an IDE, PHP finds dbgp through
+[`client_host` and `client_port`](../user-guide/connecting-to-a-client.md), which
+default to `localhost` and `9003`. When PHP runs on the same machine, there is
+nothing to set up.
+
+## A first session
+
+Here is a short script that adds up the items in a cart:
+
+```php title="cart.php"
+<?php
+
+function total(array $items, float $discount): float
+{
+    $sum = 0;
+    foreach ($items as $item) {
+        $sum += $item['price'] * $item['qty'];
+    }
+
+    return $sum - $discount;
+}
+
+$items = [
+    ['name' => 'Book', 'price' => 12.5, 'qty' => 2],
+    ['name' => 'Pen', 'price' => 1.2, 'qty' => '3'],
+];
+
+echo total($items, 5), "\n";
+```
+
+Start dbgp with a breakpoint inside the loop, then run `php cart.php` in another
+terminal. dbgp announces the session, and `run` takes it to the breakpoint, showing
+the code around it:
+
+```text
+$ dbgp -break cart.php:7
+Breakpoint 1: /home/you/shop/cart.php:7
+Listening for PHP on port 9003. Sessions are announced when PHP connects,
+and commands that need one wait for it. Type help for commands.
+(dbgp) run
+Waiting for PHP to connect (Ctrl-C to cancel)...
+
+[session 1 connected: /home/you/shop/cart.php (selected)]
+Stopped at /home/you/shop/cart.php:7
+      3  function total(array $items, float $discount): float
+      4  {
+      5      $sum = 0;
+      6      foreach ($items as $item) {
+=>    7          $sum += $item['price'] * $item['qty'];
+      8      }
+      9
+     10      return $sum - $discount;
+     11  }
+```
+
+The prompt now shows the session and its state: session `1`, stopped at a
+breakpoint. Look at how it got there, and at the variables:
+
+```text
+(dbgp 1:break) stack
+#0 total() at /home/you/shop/cart.php:7
+#1 {main}() at /home/you/shop/cart.php:18
+(dbgp 1:break) vars
+$discount                      float    = 5
+$item                          array    = array[3]
+$items                         array    = array[2]
+$sum                           int      = 0
+(print NAME shows what an array or object contains)
+(dbgp 1:break) print $item
+$item                          array    = array[3]
+  $item["name"]                string   = "Book"
+  $item["price"]               float    = 12.5
+  $item["qty"]                 int      = 2
+```
+
+`next` steps over the line. Here that goes round the loop and back to line 7, for
+the next item, with `$sum` updated:
+
+```text
+(dbgp 1:break) next
+Stopped at /home/you/shop/cart.php:7
+...
+(dbgp 1:break) print $sum
+$sum                           float    = 25
+```
+
+`out` runs to the end of the function and stops back in the code that called it.
+`run` then runs the script to its end, `output` shows what it printed, and `stop`
+ends the session:
+
+```text
+(dbgp 1:break) out
+Stopped at /home/you/shop/cart.php:18
+...
+=>   18  echo total($items, 5), "\n";
+(dbgp 1:break) run
+Script finished; output shows its output, stop ends the session.
+(dbgp 1:stopping) output
+23.6
+(dbgp 1:stopping) stop
+Stopped session 1.
+(dbgp 1:ended)
+```
+
+dbgp keeps listening, so you can run the script again and the next session starts
+the same way. `quit` exits dbgp.
+
+## Breakpoints
+
+| Command | Stops |
+| --- | --- |
+| `break FILE:LINE` | At a line. |
+| `break LINE` | At a line of the file the session is stopped in. |
+| `break FILE:LINE if COND` | At a line, but only when the PHP expression `COND` is true. |
+| `break call FUNC` | When the function or method `FUNC` is called. |
+| `break return FUNC` | When the function or method `FUNC` returns. |
+| `break exception CLASS` | When an exception of class `CLASS`, or a subclass of it, is thrown. |
+
+A relative `FILE` is taken from the directory you started dbgp in. `breaks` lists
+the breakpoints with their numbers, and `delete ID` removes one. Breakpoints apply
+to every session, including ones that connect later.
+
+A conditional breakpoint is the quickest way to stop on the one case you are
+interested in, rather than every time round a loop:
+
+```text
+(dbgp) break cart.php:7 if $item["name"] == "Pen"
+Breakpoint 1: /home/you/shop/cart.php:7 if $item["name"] == "Pen"
+```
+
+To set breakpoints before PHP connects, either type them at the prompt or pass them
+with `-break` when you start dbgp. Repeat `-break` for several.
+
+## Running and stepping
+
+| Command | What it does |
+| --- | --- |
+| `run` | Runs to the next breakpoint, or to the end of the script. |
+| `step` | Steps into the next statement, going inside any function it calls. |
+| `next` | Steps over the next statement, running any function it calls in one go. |
+| `out` | Runs to the end of the current function, and stops in the code that called it. |
+
+While the script runs, these commands wait for it to stop. Press `Ctrl-C` to stop
+waiting and get the prompt back: the script keeps running.
+
+When the script reaches its end, the session stays open so that you can still read
+its output. `stop` then ends it.
+
+## Looking around
+
+| Command | What it shows |
+| --- | --- |
+| `stack` | The call stack, innermost first. |
+| `vars [DEPTH [CONTEXT]]` | The variables of a stack frame: `0`, the default, is where the code stopped, `1` the function that called it, and so on. |
+| `contexts` | The variable contexts `vars` can show: the local variables, the superglobals, and the constants you defined. |
+| `print NAME` | A variable, and what an array or object contains, such as `print $user["name"]` or `print $order->items`. `-d DEPTH` reads it from another stack frame, and `-p PAGE` shows further pages of a large array or object. |
+| `value NAME` | A variable's whole value, for long strings that `print` cuts short. Also takes `-d DEPTH`. |
+| `source [[FILE:]LINE]` | The source around where the code stopped, or around another line or file. |
+| `output` | What the script has printed since you last looked. |
+| `notes` | The PHP warnings, notices and other errors the script has raised since you last looked. |
+
+## Changing things
+
+| Command | What it does |
+| --- | --- |
+| `eval CODE` | Evaluates a PHP expression where the code stopped, and shows the result. |
+| `set NAME = EXPR` | Sets a variable to the value of a PHP expression. |
+
+`eval` is handy for checking an expression before you change the code:
+
+```text
+(dbgp 1:break) eval $item["price"] * $item["qty"]
+3.5999999999999996 (float)
+```
+
+Both run code in the script you are debugging, so they can change what it does
+from there on.
+
+## Ending a session
+
+`stop` ends the script where it is. `detach` lets it run on to its end without the
+debugger, which is what you want for a web request whose page you still want to
+see.
+
+## Several sessions at once
+
+Every script or request that connects while dbgp is listening becomes a session.
+dbgp announces each one as it connects, and selects the first, so commands act on
+it.
+
+```text
+[session 2 connected: /home/you/shop/public/index.php]
+```
+
+`sessions` lists them all, and `use ID` switches to another one.
+
+A session waits for you until you run, detach or stop it. PHP Debugger is always
+on, so while dbgp listens, every request you make to your app connects and waits,
+not just the one you meant to debug. When you have the session you want, `unlisten`
+stops dbgp from taking new ones, and those requests run without the debugger again.
+`listen` starts taking them again.
+
+## PHP in a container or on a server
+
+PHP has to connect to the machine dbgp runs on. Set `client_host` to an address that
+reaches it, such as `host.docker.internal` from a Docker container. See
+[Connecting to a client](../user-guide/connecting-to-a-client.md#when-the-code-runs-somewhere-else)
+for the details.
+
+dbgp also needs to know where your project's files are inside the container, so
+that breakpoints you set on your files land on the files PHP runs. Pass the mapping
+as `LOCAL=REMOTE` with `-map` when you start dbgp:
+
+```bash
+dbgp -map /home/you/shop=/var/www/html -break src/Cart.php:42
+```
+
+or add it at the prompt with `map`. `maps` lists the mappings.
+
+You can also run dbgp on the server or in the container itself, next to PHP, over
+SSH or with `docker exec`. Then PHP connects to `localhost` as usual, and no mapping
+is needed.
+
+## Options
+
+| Option | What it does |
+| --- | --- |
+| `-break FILE:LINE` | Sets a breakpoint before PHP connects. Repeat it for several. |
+| `-map LOCAL=REMOTE` | Maps a directory on this machine to where PHP sees it. Repeat it for several. |
+| `-php-port PORT` | The port to listen on for PHP. Defaults to `9003`. |
+| `-idekey KEY` | Accepts only sessions with this IDE key, and turns away any other PHP that connects. |
+| `-history FILE` | Where to keep the command history. Defaults to `~/.dbgp_history`. Set it to an empty value to keep none. |
+| `-version` | Prints the version and exits. |
+
+`dbgp -h` lists them all.
+
+## At the prompt
+
+The prompt has line editing, tab completion for commands, and a history you can
+step through with the arrow keys, kept between runs. `help` lists every command.
+
+The most common commands have short aliases:
+
+| Alias | Command |
+| --- | --- |
+| `r` | `run` |
+| `s` | `step` |
+| `n` | `next` |
+| `o` | `out` |
+| `b` | `break` |
+| `bt` | `stack` |
+| `p` | `print` |
+| `l` | `source` |
+| `q`, `exit` | `quit` |

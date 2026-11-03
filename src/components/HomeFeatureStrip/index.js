@@ -13,6 +13,18 @@ const iconProps = {
 
 const features = [
   {
+    title: 'Agent Ready',
+    text: 'Let AI agents set breakpoints, step and inspect your code.',
+    icon: (
+      <svg {...iconProps}>
+        <path d="M12 3v3" />
+        <rect x="4" y="6" width="16" height="12" rx="3" />
+        <path d="M9 11v1M15 11v1M9.5 15h5" />
+        <path d="M2 11v2M22 11v2" />
+      </svg>
+    ),
+  },
+  {
     title: 'Fast & Lightweight',
     text: 'Built for speed with zero performance overhead.',
     icon: (
@@ -29,16 +41,6 @@ const features = [
         <path d="M9 3v6M15 3v6" />
         <path d="M7 9h10v3a5 5 0 0 1-10 0V9z" />
         <path d="M12 17v4" />
-      </svg>
-    ),
-  },
-  {
-    title: 'IDE Integration',
-    text: 'Works seamlessly with your favorite IDE.',
-    icon: (
-      <svg {...iconProps}>
-        <rect x="3" y="4" width="18" height="13" rx="2" />
-        <path d="M8 21h8M12 17v4" />
       </svg>
     ),
   },

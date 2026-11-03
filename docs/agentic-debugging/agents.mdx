@@ -1,0 +1,245 @@
+---
+title: Debugging with agents
+description: Add DBGP Client to Claude Code or any other MCP agent, and let it debug your PHP scripts and web requests.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+`dbgp mcp` runs DBGP Client as an [MCP](https://modelcontextprotocol.io) server.
+Once you add it to your agent, the agent can debug PHP the way you would in your
+IDE: set breakpoints, run the code, step through it, and look at the stack, the
+variables, the output and the warnings.
+
+## Add it to your agent
+
+<Tabs groupId="agent">
+<TabItem value="claude-code" label="Claude Code" default>
+
+```bash
+claude mcp add dbgp -- dbgp mcp
+```
+
+This adds it to the current project. Add `--scope user` to make it available in
+all of your projects:
+
+```bash
+claude mcp add --scope user dbgp -- dbgp mcp
+```
+
+Run `/mcp` inside Claude Code to check that it is connected.
+
+</TabItem>
+<TabItem value="other" label="Other agents">
+
+Any agent that supports MCP servers can use dbgp. Add a server that runs the
+command `dbgp` with the argument `mcp`. Most agents take a JSON configuration like
+this one:
+
+```json
+{
+  "mcpServers": {
+    "dbgp": {
+      "command": "dbgp",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+See your agent's documentation for where its MCP settings live.
+
+</TabItem>
+</Tabs>
+
+The agent starts `dbgp mcp` itself when it needs it, so there is nothing else to
+run. [Options](#options) go after `mcp`, for example `dbgp mcp -no-eval`.
+
+## Make sure PHP can reach dbgp
+
+When a script or request starts, PHP Debugger
+[connects](../user-guide/connecting-to-a-client.md) to the address in
+`php_debugger.client_host` on the port in `php_debugger.client_port`. They default to `localhost` and `9003`, and dbgp listens
+on port `9003` by default. So when PHP runs on the same machine as your agent,
+there is nothing to set up.
+
+### PHP in a container or on a server
+
+PHP has to connect to the machine your agent runs on. Set `client_host` to an
+address that reaches it, such as `host.docker.internal` from a Docker container:
+
+```ini
+php_debugger.client_host=host.docker.internal
+```
+
+[Connecting to a client](../user-guide/connecting-to-a-client.md#when-the-code-runs-somewhere-else)
+covers the other ways to find that address.
+
+dbgp also needs to know where your project's files are inside the container, so
+that the files and lines the agent works with match the ones PHP runs. The agent
+can work this out and add the mapping itself, but if you always debug the same
+setup you can pass it with `-map`, as `LOCAL=REMOTE`:
+
+```bash
+claude mcp add dbgp -- dbgp mcp -map /home/you/myapp=/var/www/html
+```
+
+### If your IDE is listening too
+
+Only one program can listen on a port at a time. If your IDE is listening on
+`9003`, dbgp cannot, and PHP might connect to your IDE instead of to the agent.
+Stop listening in your IDE while the agent debugs.
+
+To use both at the same time, give dbgp a port of its own with `-php-port`, and set
+`client_port` to that port for the PHP the agent runs. For a script, the
+[`PHP_DEBUGGER_CONFIG`](../reference/environment-variables.md#php_debugger_config)
+environment variable does it for a single run:
+
+```bash
+PHP_DEBUGGER_CONFIG="client_port=9013" php app.php
+```
+
+## Ask it to debug something
+
+Tell the agent what is wrong and how to make it happen, and ask it to use the
+debugger. It decides where to put breakpoints, runs the code, and reports what it
+found. For example:
+
+> The total on the checkout page is wrong when a coupon is applied. Debug the
+> request to /checkout with a breakpoint in CartService::total() and find out why.
+
+> `php bin/console app:import users.csv` skips some of the rows. Use the debugger
+> to find out which ones, and why.
+
+> The test `testRefundIsCapped` fails. Debug it and step through `Refund::amount()`
+> to see where the value goes wrong.
+
+The more you tell it, the faster it gets there: the URL or command that shows the
+problem, what you expected to happen, and where you think the problem is. Asking
+it to *use the debugger* matters too: otherwise, many agents still reach for
+`var_dump()` out of habit.
+
+## What happens while it debugs
+
+dbgp does not listen for PHP until the agent asks it to, and stops when the agent
+is done. A typical run goes like this:
+
+1. The agent adds its breakpoints and starts listening.
+2. It runs the script, or sends the web request, in the background.
+3. PHP Debugger connects to dbgp, and the script waits there, stopped at its
+   start. The agent takes that session and runs it to the first breakpoint.
+4. It looks at the stack, the variables and the source, steps through the code, and
+   reads what the script has printed and the warnings it raised.
+5. When it has what it needs, it ends the session, removes its breakpoints and
+   stops listening.
+
+### Other requests while it listens
+
+PHP Debugger is always on, so while dbgp is listening, *every* script or request
+that runs connects to it, not just the agent's. If you load a page of your app in
+the browser while the agent is debugging, that request connects too, and waits.
+
+dbgp lets such requests go: a session that no agent takes within a minute of
+connecting is detached, and its script runs on to its end without the debugger. So
+nothing is left hanging, but a request you make while the agent is debugging can
+take up to a minute to answer.
+
+Agents keep their listening short, so this rarely comes up. When it does, it is
+usually a sign that the agent forgot to stop listening: ask it to.
+
+## The tools it gets
+
+These are the tools dbgp gives the agent. You do not need to know them to use it,
+but they show what it can and cannot do:
+
+| Tool | What it does |
+| --- | --- |
+| `status` | Shows whether dbgp is listening, the sessions, breakpoints and path mappings. |
+| `listen`, `unlisten` | Start and stop listening for PHP. |
+| `add_breakpoint`, `remove_breakpoint`, `breakpoints` | Manage breakpoints: on a line, optionally with a condition, when a function is called or returns, or when an exception is thrown. |
+| `add_path_mapping`, `path_mappings` | Map a project directory to where PHP sees it, for PHP in a container or on a server. |
+| `sessions`, `wait_for_session` | List the sessions, and wait for the next one to connect. |
+| `continue`, `wait_for_stop` | Run to the next breakpoint, or step into, over or out of the code. |
+| `stop`, `detach` | End a session where it is, or let its script run on without the debugger. |
+| `stack`, `variables`, `variable`, `variable_value` | Show the call stack and the variables of any frame, a page at a time for large arrays and objects. |
+| `source` | Show the source around where the code stopped, or around any file and line. |
+| `output`, `warnings` | Show what the script printed, and the PHP warnings and notices it raised. |
+| `eval`, `set_variable` | Evaluate a PHP expression in the stopped script, or change a variable. |
+
+## Options
+
+Add these after `dbgp mcp` in the command your agent runs:
+
+| Option | What it does |
+| --- | --- |
+| `-no-eval` | Turns off everything that runs PHP code written by the agent. See [Look, don't touch](#look-dont-touch). |
+| `-map LOCAL=REMOTE` | Maps a directory on this machine to where PHP sees it. Repeat it for several mappings. |
+| `-php-port PORT` | The port to listen on for PHP. Defaults to `9003`. |
+| `-idekey KEY` | Accepts only sessions with this IDE key, and turns away any other PHP that connects. |
+| `-listen` | Listens for PHP from the start, instead of waiting for the agent to ask. |
+| `-mcp-port PORT` | The port agents connect to over MCP. Defaults to `9004`. |
+
+`dbgp mcp -h` lists them all.
+
+## Look, don't touch
+
+With `-no-eval`, the agent cannot run PHP code of its own in the script it is
+debugging. That turns off the `eval` and `set_variable` tools, and conditions on
+breakpoints. It can still stop the code anywhere, step through it, and read every
+variable, so it can still find out what went wrong. It just cannot change anything
+along the way.
+
+```bash
+claude mcp add dbgp -- dbgp mcp -no-eval
+```
+
+:::warning[It can still see everything]
+
+This limits what the agent can *do*, not what it can *see*: it still reads every
+variable the script has, passwords and API keys included. And PHP may still run some
+code when reading values: reading an object property that does not exist calls the
+object's `__get()` method, if it has one.
+
+:::
+
+## Sharing one dbgp between agents
+
+By default, each agent session starts its own dbgp, which goes away when the
+session ends, along with its breakpoints. To keep one running in the background
+instead, start it yourself:
+
+```bash
+dbgp mcp start     # start it, with any of the options above
+dbgp mcp status    # is it running?
+dbgp mcp stop      # stop it
+```
+
+While it runs, agents that start `dbgp mcp` connect to it instead of starting their
+own, and use the options it was started with. That gives you:
+
+- **Breakpoints and sessions that last** from one agent session to the next.
+- **Several agents debugging at once**, sharing the same breakpoints and path
+  mappings. Each agent has its own current session, and dbgp keeps listening until
+  every agent that asked it to listen has stopped.
+
+Agents reach it on port `9004` by default, on this machine only. Change the port with
+`-mcp-port` when you start it. Only you can use it: agents connect with a token
+kept in a file that other users on the machine cannot read.
+
+It does not start again by itself after a restart, so run `dbgp mcp start` again
+when you need it. After [updating dbgp](./installation.mdx#updating), restart it
+to use the new version.
+
+## Using it with Xdebug
+
+dbgp works with Xdebug too. PHP Debugger starts debugging every request by itself,
+but Xdebug has to be told to:
+
+```ini
+xdebug.mode=debug
+xdebug.start_with_request=yes
+```
+
+Xdebug in debug mode slows every request down, even while nothing is listening.
+PHP Debugger costs almost nothing until something listens, which is what makes it
+the better fit for leaving on while an agent works.
