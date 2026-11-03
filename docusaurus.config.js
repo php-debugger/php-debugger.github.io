@@ -105,7 +105,7 @@ const config = {
       },
       navbar: {
         logo: {
-          alt: 'PHP Debugger — zero-overhead debugging',
+          alt: 'PHP Debugger — agentic zero-overhead debugging for PHP',
           // The navbar is theme-inverted, so the white lockup goes on the
           // light mode (dark bar) and the dark lockup on dark mode (light bar).
           src: 'img/php-debugger-lockup-white.png',

@@ -9,7 +9,8 @@ export default function CtaBanner() {
         <div>
           <h2 className={styles.title}>Ready to debug like a pro?</h2>
           <p className={styles.subtitle}>
-            Bring zero-overhead debugging to your daily workflow.
+            Bring zero-overhead debugging to your daily workflow, for you and
+            your AI agents.
           </p>
         </div>
       </div>
