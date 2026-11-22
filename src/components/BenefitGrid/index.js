@@ -1,3 +1,4 @@
+import Link from '@docusaurus/Link';
 import styles from './styles.module.css';
 
 const iconProps = {
@@ -30,6 +31,34 @@ const benefits = [
       <svg {...iconProps}>
         <circle cx="12" cy="12" r="9" />
         <path d="M10 9v6M14 9v6" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Debugging for AI agents',
+    text: (
+      <>
+        With <Link to="/agentic-debugging/dbgp-client">DBGP Client</Link>, agents like
+        Claude Code debug PHP the way you would: set breakpoints, step through the
+        code, and read the real values instead of guessing or adding{' '}
+        <code>var_dump()</code> calls.
+      </>
+    ),
+    icon: (
+      <svg {...iconProps}>
+        <path d="M12 3v3" />
+        <rect x="4" y="6" width="16" height="12" rx="3" />
+        <path d="M9 11v1M15 11v1M9.5 15h5" />
+        <path d="M2 11v2M22 11v2" />
+      </svg>
+    ),
+  },
+  {
+    title: 'Made for how agents work',
+    text: 'Agents debug in short bursts between long stretches of reading and editing. The debugger costs almost nothing in between, so you can leave it on all day and PHP runs at full speed until your agent needs it.',
+    icon: (
+      <svg {...iconProps}>
+        <path d="M2 12h5l2-5 3 10 2-5h8" />
       </svg>
     ),
   },

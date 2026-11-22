@@ -123,6 +123,11 @@ const config = {
             position: 'left',
           },
           {
+            to: '/agentic-debugging/dbgp-client',
+            label: 'Agentic',
+            position: 'left',
+          },
+          {
             to: '/reference/settings',
             label: 'Reference',
             position: 'left',
