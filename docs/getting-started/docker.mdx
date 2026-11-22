@@ -30,7 +30,7 @@ no separate Dockerfile for development.
 ### Available tags
 
 Each tag matches the official `php:` tag of the same name, for PHP **8.2** to
-**8.5**, on `linux/amd64` and `linux/arm64`:
+**8.6**, on `linux/amd64` and `linux/arm64`:
 
 | Tag | Distro |
 | --- | --- |
@@ -42,6 +42,17 @@ Each tag matches the official `php:` tag of the same name, for PHP **8.2** to
 | `8.x-fpm-alpine` | Alpine |
 | `8.x-zts-alpine` | Alpine |
 | `latest` | newest stable PHP, cli variant |
+
+:::note[PHP 8.6 is thread-safe only]
+
+From PHP 8.6, the official images build the thread-safe (ZTS) variant by default
+and no longer publish a non-thread-safe (NTS) one. That makes the separate `-zts`
+tags redundant, so there are no `8.6-zts` or `8.6-zts-alpine` tags: `8.6-cli`,
+`8.6-fpm`, `8.6-apache` and the Alpine tags are all thread-safe already. The
+same applies to `latest`, which now points at 8.6. PHP 8.2 to 8.5 keep their
+NTS default tags and their `-zts` tags.
+
+:::
 
 There are no patch-level tags such as `8.4.23`. Each tag always carries the latest
 patch release of its PHP minor version, rebuilt weekly and on every debugger
