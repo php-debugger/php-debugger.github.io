@@ -19,7 +19,7 @@ complete **PHP interpreter** with the debugger compiled into it.
 This page covers Linux and macOS. Windows uses a different toolchain and has its
 own page: [Building on Windows](./windows.mdx).
 
-Requires PHP 8.2 to 8.5. The build refuses to configure outside that range.
+Requires PHP 8.2 to 8.6. The build refuses to configure outside that range.
 
 ## The extension
 
@@ -43,10 +43,10 @@ That leaves `modules/php_debugger.so`. Try it without installing anything:
 php -d zend_extension=$PWD/modules/php_debugger.so -v
 ```
 
-<ConsoleSample>{`PHP 8.4.23 (cli) (built: Jul  2 2026 20:39:24) (NTS)
-Copyright (c) The PHP Group
-Zend Engine v4.4.23, Copyright (c) Zend Technologies
-    with Zend OPcache v8.4.23, Copyright (c), by Zend Technologies
+<ConsoleSample>{`PHP 8.6.0 (cli) (built: Nov 19 2026 20:39:24) (NTS)
+Copyright © The PHP Group and Contributors
+Zend Engine v4.6.0, Copyright © Zend by Perforce
+    with Zend OPcache v8.6.0, Copyright ©, by Zend by Perforce
     with PHP Debugger v__VERSION__, Copyright (c) 2002-2026, by Derick Rethans`}</ConsoleSample>
 
 To keep it, copy the file into your extension directory and load it from
@@ -73,7 +73,7 @@ binaries and the Docker images are. You compile it as part of PHP rather than
 against it:
 
 ```bash
-git clone --depth=1 --branch=PHP-8.4 https://github.com/php/php-src.git
+git clone --depth=1 --branch=PHP-8.6 https://github.com/php/php-src.git
 git clone https://github.com/php-debugger/php-debugger.git
 
 cp -r php-debugger php-src/ext/php_debugger

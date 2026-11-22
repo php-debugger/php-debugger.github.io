@@ -18,10 +18,10 @@ The images on Docker Hub are drop-in replacements for the
 
 ```dockerfile
 # before
-FROM php:8.4-fpm
+FROM php:8.6-fpm
 
 # after
-FROM phpdebugger/php:8.4-fpm
+FROM phpdebugger/php:8.6-fpm
 ```
 
 That is the whole setup. There is no extension to install, nothing to enable, and
@@ -30,7 +30,7 @@ no separate Dockerfile for development.
 ### Available tags
 
 Each tag matches the official `php:` tag of the same name, for PHP **8.2** to
-**8.5**, on `linux/amd64` and `linux/arm64`:
+**8.6**, on `linux/amd64` and `linux/arm64`:
 
 | Tag | Distro |
 | --- | --- |
@@ -43,7 +43,18 @@ Each tag matches the official `php:` tag of the same name, for PHP **8.2** to
 | `8.x-zts-alpine` | Alpine |
 | `latest` | newest stable PHP, cli variant |
 
-There are no patch-level tags such as `8.4.23`. Each tag always carries the latest
+:::note[PHP 8.6 is thread-safe only]
+
+From PHP 8.6, the official images build the thread-safe (ZTS) variant by default
+and no longer publish a non-thread-safe (NTS) one. That makes the separate `-zts`
+tags redundant, so there are no `8.6-zts` or `8.6-zts-alpine` tags: `8.6-cli`,
+`8.6-fpm`, `8.6-apache` and the Alpine tags are all thread-safe already. The
+same applies to `latest`, which now points at 8.6. PHP 8.2 to 8.5 keep their
+NTS default tags and their `-zts` tags.
+
+:::
+
+There are no patch-level tags such as `8.6.0`. Each tag always carries the latest
 patch release of its PHP minor version, rebuilt weekly and on every debugger
 release.
 
@@ -53,7 +64,7 @@ Everything you already do keeps working — same entrypoints, same helper script
 same config layout:
 
 ```dockerfile
-FROM phpdebugger/php:8.4-fpm
+FROM phpdebugger/php:8.6-fpm
 
 RUN docker-php-ext-install -j$(nproc) pdo_mysql bcmath
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -82,7 +93,7 @@ cost when it is not.
 ```yaml
 services:
     app:
-        image: phpdebugger/php:8.4-fpm
+        image: phpdebugger/php:8.6-fpm
         environment:
             PHP_DEBUGGER_CONFIG: "client_host=host.docker.internal"
             PHP_IDE_CONFIG: "serverName=myapp"
@@ -92,11 +103,11 @@ services:
 
 ### Checking it worked
 
-<ConsoleSample>{`$ docker run --rm phpdebugger/php:8.4-cli php -v
-PHP 8.4.24 (cli) (built: Aug  3 2026 12:08:27) (NTS)
-Copyright (c) The PHP Group
-Zend Engine v4.4.24, Copyright (c) Zend Technologies
-    with Zend OPcache v8.4.24, Copyright (c), by Zend Technologies
+<ConsoleSample>{`$ docker run --rm phpdebugger/php:8.6-cli php -v
+PHP 8.6.0 (cli) (built: Nov 19 2026 15:18:52) (ZTS)
+Copyright © The PHP Group and Contributors
+Zend Engine v4.6.0, Copyright © Zend by Perforce
+    with Zend OPcache v8.6.0, Copyright ©, by Zend by Perforce
     with PHP Debugger v__VERSION__, Copyright (c) 2002-2026, by Derick Rethans`}</ConsoleSample>
 
 :::warning[Development images only]
@@ -133,7 +144,7 @@ the extension with [PIE](https://github.com/php/pie), the PHP Foundation's
 extension installer.
 
 ```dockerfile
-FROM php:8.4-cli
+FROM php:8.6-cli
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends $PHPIZE_DEPS unzip libtool \
