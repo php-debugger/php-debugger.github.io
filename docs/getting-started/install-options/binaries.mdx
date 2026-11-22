@@ -19,7 +19,7 @@ Three things have to match your PHP: the **minor version**, the **thread safety*
 and your **platform**.
 
 ```bash
-php -v                          # 8.4.x -> you want the php8.4 files
+php -v                          # 8.6.x -> you want the php8.6 files
 php -i | grep "Thread Safety"   # disabled -> nts,  enabled -> ts
 php-config --extension-dir      # where the extension has to go
 ```
@@ -34,12 +34,12 @@ Windows, for both `arm64` and `x86_64`:
 
 | What | File |
 | --- | --- |
-| Interpreter | `php-php8.4-nts-linux-arm64` |
-| Interpreter (Windows) | `php-php8.4-nts-windows-x64.exe` |
-| Extension | `php-debugger-php8.4-nts-linux-arm64.so` |
-| Extension (Windows) | `php_php-debugger-php8.4-nts-windows-x64.dll` |
+| Interpreter | `php-php8.6-nts-linux-arm64` |
+| Interpreter (Windows) | `php-php8.6-nts-windows-x64.exe` |
+| Extension | `php-debugger-php8.6-nts-linux-arm64.so` |
+| Extension (Windows) | `php_php-debugger-php8.6-nts-windows-x64.dll` |
 
-Swap `8.4` for your PHP version, `nts` for `ts` if your build is thread-safe, and
+Swap `8.6` for your PHP version, `nts` for `ts` if your build is thread-safe, and
 the platform for yours — `linux`, `macos` or `windows`, with `arm64` or `x86_64`
 (`x64` on Windows).
 
@@ -49,14 +49,14 @@ A single self-contained file. Download it, make it executable, and run it:
 
 ```bash
 curl -fsSL -o php-debugger \
-  https://github.com/php-debugger/php-debugger/releases/latest/download/php-php8.4-nts-linux-arm64
+  https://github.com/php-debugger/php-debugger/releases/latest/download/php-php8.6-nts-linux-arm64
 chmod +x php-debugger
 ./php-debugger -v
 ```
 
-<ConsoleSample>{`PHP 8.4.23 (cli) (built: Jul  2 2026 20:39:24) (NTS)
+<ConsoleSample>{`PHP 8.6.0 (cli) (built: Nov 19 2026 20:39:24) (NTS)
 Copyright (c) The PHP Group
-Zend Engine v4.4.23, Copyright (c) Zend Technologies
+Zend Engine v4.6.0, Copyright (c) Zend Technologies
     with PHP Debugger v__VERSION__, Copyright (c) 2002-2026, by Derick Rethans`}</ConsoleSample>
 
 Put it on your PATH if you want it to be the `php` you run. Nothing needs
@@ -69,7 +69,7 @@ Download the `.so` into your extension directory, then load it from `php.ini`:
 
 ```bash
 curl -fsSL -o "$(php-config --extension-dir)/php_debugger.so" \
-  https://github.com/php-debugger/php-debugger/releases/latest/download/php-debugger-php8.4-nts-linux-arm64.so
+  https://github.com/php-debugger/php-debugger/releases/latest/download/php-debugger-php8.6-nts-linux-arm64.so
 ```
 
 ```ini
